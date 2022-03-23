@@ -1,0 +1,118 @@
+###
+GET   http://localhost:3000/api/auth/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTc1OGJmZGI1MWI0ODk1NWE0ODkzZDYiLCJpYXQiOjE2MzUyNjY4MDAsImV4cCI6MTYzNTI2NjgzMH0.YSR-mQxIody5TxRFpCHgoVMCxeKhqLGJUpzz5GTIJ9g
+
+###
+POST   http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{ 
+    "email" : "nvsang.18it2@sict.udn.vn",
+    "password" : "123456789",
+    "username" : "nguyen van sang 7",
+    "confirmPassword": "123456789"
+}
+
+###
+POST   http://localhost:3000/api/auth/register
+
+###
+
+GET   http://localhost:3000/api/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXRkZmdoZDIyMkBnbWFpbC5jb20iLCJpYXQiOjE2MzUzNDkyODN9.ampqR6Bvp65gB7rYows6-bIvhCx6DcEZjAQTzE2t2OY
+
+###
+POST   http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email" : "nvsang.18it2@sict.udn.vn",
+    "password" : "123456789"
+}
+
+###
+POST  http://localhost:3000/api/product/add
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTQ3OTg2Mn0.jwmxmgyKUcjb7eaSPQw0khAkssatj_linzSsKuvieMQ
+Content-Type: application/json
+
+{
+    "name": "banh cuon ",
+    "description": "um ba la chap",
+    "avata": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVoB3a_65P1uEA5W3EgOyAsCbsmkTmtmVF8Q&usqp=CAU",
+    "price": 25000,
+    "address": "12334",
+    "voted": "123"
+}
+###
+DELETE   http://localhost:3000/api/product/delete/61c9b410815e5d6cd5286ab1
+
+###
+POST  http://localhost:3000/api/category/add
+Content-Type: application/json
+
+{
+    "name" : "Đồ Ăn Nhanh",
+    "avata" : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Ffood&psig=AOvVaw05OgsvzYhjzC5AnIvaDxfn&ust=1635495037908000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCIiMv_fT7PMCFQAAAAAdAAAAABAD"
+}
+
+###
+GET  http://localhost:3000/api/category/get
+
+
+###
+POST  http://localhost:3000/api/search-key
+Content-Type: application/json
+
+{
+    "key": "banh"
+    
+}
+
+###
+POST  http://localhost:3000/api/add-banner
+Content-Type: application/json
+
+{
+    "img" : "https://jmb.com.vn/wp-content/uploads/2020/12/sp3.jpg",
+    "url" : "banner 1"
+}
+
+###
+POST  http://localhost:3000/api/user/add-to-cart
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQHNpY3QudWRuLnZuIiwiaWF0IjoxNjQwOTcyNDkzfQ.j4aTQ71zjgNqC3u9E3QcRGfiJubTxqUSBllii8rJ9aI
+Content-Type: application/json
+
+{
+    "cartItems": [
+        {
+            "product": "61cdd2e1e61146093325ba5d",
+            "quantity": 1,
+            "price": 25000,
+            "payment": 25000
+        }
+    ]
+}
+
+###
+POST  http://localhost:3000/admin/delete-user/61d95269b76e729bf90c5cfb
+
+
+###
+GET  http://localhost:3000/api/user/get-cart
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQHNpY3QudWRuLnZuIiwiaWF0IjoxNjQwOTczMzA3fQ.P8Q1V5JkOG-EYcvlZtQyoUIHV6zgP6bL0qBP3kgYsR0
+
+###
+GET  http://localhost:3000/api/product/get/1
+
+###
+POST   http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email" : "nvsang.18it2@sict.udn.vn",
+    "password" : "123456789"
+}
+
+###
+DELETE  http://localhost:3000/api/user/delete/61d949c3596877119f2283ee
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQHNpY3QudWRuLnZuIiwiaWF0IjoxNjQxNjkyNTQ1fQ.Th5maJLV_LL3H8uPUSdJUA8qBHf0sMuEn0vOXGIrm4E
