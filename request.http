@@ -7,9 +7,9 @@ POST   http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 { 
-    "email" : "nvsang.18it2@sict.udn.vn",
+    "email" : "nvsang.18it212673@sict.udn.vn",
     "password" : "123456789",
-    "username" : "nguyen van sang 7",
+    "username" : "sang 7689",
     "confirmPassword": "123456789"
 }
 
@@ -19,7 +19,7 @@ POST   http://localhost:3000/api/auth/register
 ###
 
 GET   http://localhost:3000/api/auth/logout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXRkZmdoZDIyMkBnbWFpbC5jb20iLCJpYXQiOjE2MzUzNDkyODN9.ampqR6Bvp65gB7rYows6-bIvhCx6DcEZjAQTzE2t2OY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQHNpY3QudWRuLnZuIiwiaWF0IjoxNjQ5OTE0NzcxfQ.X80_vc1FeVa1mJZWDnGcweWsMabtx_p3IoySUfkjAE8
 
 ###
 POST   http://localhost:3000/api/auth/login
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 {
     "email" : "nvsang.18it2@sict.udn.vn",
-    "password" : "123456789"
+    "password" : "1234567890"
 }
 
 ###

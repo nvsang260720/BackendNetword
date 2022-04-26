@@ -4,7 +4,7 @@ const getUser = async(req, res) => {
     try {
         const user = await User.find()
         console.log(user)
-        res.render('admin/managerUser', { title: 'Admin', users: user});
+        res.render('admin/Users/listUser', { title: 'Admin', users: user});
     } catch (error) {
         res.json({ message: 'get ser fail' })
     }
