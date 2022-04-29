@@ -13,7 +13,7 @@ const verifyToken = require('./middleware/api/auth')
 const adminRouter = require('./routes/backend/admin');
 const homeRouter = require('./routes/backend/home')
 
-//api
+//api test
 const API = require('./routes/api/API');
 const ApiAuth = require('./routes/api/Auth');
 const ApiUser = require('./routes/api/User');
