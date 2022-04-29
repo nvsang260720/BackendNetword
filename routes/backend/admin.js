@@ -3,17 +3,17 @@ const router = express.Router();
 const ProductController = require('../../controller/Backend/ProductsController')
 const CategoryController = require('../../controller/Backend/CategoryController')
 const AuthController = require('../../controller/Backend/AuthController')
-const UserControler = require('../../controller/Backend/UserControler')
+const UserController = require('../../controller/Backend/UserController')
 
-router.get('/', UserControler.getHome)
+router.get('/', UserController.getHome)
 
 router.get('/login', AuthController.getLogin)
 
 router.post('/login', AuthController.postLogin)
 
-router.get('/user', UserControler.getUser)
+router.get('/user', UserController.getUser)
 
-router.post('/user/:id',UserControler.deleteUser)
+router.post('/user/:id',UserController.deleteUser)
 
 router.get('/get-category', CategoryController.getCategory);
 
