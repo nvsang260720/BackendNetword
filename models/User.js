@@ -28,6 +28,14 @@ const UserSchema = new Schema({
         type: String,
         default: ""
     },
+    address: {
+        type: String,
+        default: ""
+    },
+    birthday: {
+        type: String,
+        default: ""
+    },
     level: {
         type: Number,
         default: 1

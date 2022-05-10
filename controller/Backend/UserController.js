@@ -47,8 +47,14 @@ class updateUser {
 	postUpdateUser = async(req, res) => {
 		const userId = req.params.id
 		try {
-			const {avatar, username, about} = req.body
-			User.findByIdAndUpdate(userId, {avatar: avatar, username: username, about: about})
+			const {avatar, username, about, address, birthday} = req.body
+			User.findByIdAndUpdate(userId, {
+				avatar: avatar, 
+				username: username, 
+				about: about,
+				address: address,
+				birthday: birthday
+			})
 			.exec((error, user) => {
 				if(error) return res.json({ success: false, message: 'query cart to data fail' })
 				if(user){
