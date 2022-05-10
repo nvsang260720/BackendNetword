@@ -16,13 +16,21 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    avatar: {
+        type: String,
+        default: ""
+    },
+    cover: {
+        type: String,
+        default: ""
+    },
+    about: {
+        type: String,
+        default: ""
+    },
     level: {
         type: Number,
         default: 1
-    },
-    cart_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'carts',
     },
     createdAt: {
         type: Date,

@@ -42,6 +42,7 @@ app.use('/js', express.static(__dirname + 'public/js'))
 app.use('/img', express.static(__dirname + 'public/img'))
 app.use('/stylesheets', express.static(__dirname + 'public/stylesheets'))
 app.use('/vendor', express.static(__dirname + 'public/vendor'))
+app.use('/uploads', express.static( __dirname +'public/uploads'))
 
 app.use('/', homeRouter)
 app.use('/admin', adminRouter);

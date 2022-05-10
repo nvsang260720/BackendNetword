@@ -1,0 +1,36 @@
+<div>
+    <section>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-outline card-info">
+                    <form action="/admin/update-user/<%= profile._id %>" method="POST">
+                        <div class="card-body">
+                                <input type="file" id="myFile" name="uploaded_avata">
+                                <div class="form-group">
+                                    <div class="inputChoose">
+                                        <label>Full Name</label>
+                                        <input value="<%= profile.username %>" type="text" name="name" class="form-control"
+                                            id="exampleInputPassword1" placeholder="Nguyen van a">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="inputChoose">
+                                        <label>email</label>
+                                        <input disabled value="<%= profile.email %>" type="text" name="email" class="form-control"
+                                            placeholder="05 Nguyen van a">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>About</label>
+                                    <textarea name="about" class="form-control" rows="5" placeholder="My Bio"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btSave">Update</button>
+                                </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

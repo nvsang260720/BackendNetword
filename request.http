@@ -7,9 +7,9 @@ POST   http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 { 
-    "email" : "nvsang.18it212673@sict.udn.vn",
+    "email" : "nvsang.18it2@sict.udn.vn",
     "password" : "123456789",
-    "username" : "sang 7689",
+    "username" : "sang 79",
     "confirmPassword": "123456789"
 }
 
@@ -116,3 +116,12 @@ Content-Type: application/json
 ###
 DELETE  http://localhost:3000/api/user/delete/61d949c3596877119f2283ee
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQHNpY3QudWRuLnZuIiwiaWF0IjoxNjQxNjkyNTQ1fQ.Th5maJLV_LL3H8uPUSdJUA8qBHf0sMuEn0vOXGIrm4E
+
+###
+POST http://localhost:3000/admin/update-user/6256f4f1975f4afcaeec117f
+Content-Type: application/json
+
+{
+    "newName" : "nvsang.18it2@sict.udn.vn",
+    "about" : "123456789"
+}

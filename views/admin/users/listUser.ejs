@@ -16,9 +16,9 @@
         <thead class="theadTable">
           <tr>
             <th style="width: 3%;">STT</th>
-            <th style="width: 3%;">ID</th>
             <th style="width: 10%;">NAME</th>
             <th style="width: 10%;">EMAIL</th>
+            <th style="width: 3%;">ABOUT</th>
             <th style="width: 3%;">LEVEL</th>
             <th style="width: 3%;">EDIT</th>
             <th style="width: 3%;">DELETE</th>
@@ -32,9 +32,6 @@
               <td class="centerTD">
                 <%= stt++ %>
               </td>
-              <td class="centerTD">
-                <%= user._id %>
-              </td>
               <td>
                 <%= user.username %>
               </td>
@@ -42,15 +39,18 @@
                 <%= user.email %>
               </td>
               <td>
+                <%= user.about %>
+              </td>
+              <td>
                 <%= user.level %>
               </td>
               <td class="bt">
-                <form action="/admin/edit-personnel/<%= user._id %>" method="GET">
+                <form action="/admin/update-user/<%= user._id %>" method="GET">
                   <button type="submit" class="btn btn-primary">EDIT</button>
                 </form>
               </td> 
               <td>
-                <form action="/admin/personnel/<%= user._id %>" method="POST">
+                <form action="/admin/user/<%= user._id %>" method="POST">
                   <button type="submit" class="btn btn-danger" data-toggle="modal">DELETE</button>
                 </form>
               </td>
