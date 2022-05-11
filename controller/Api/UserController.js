@@ -26,9 +26,31 @@ class managerUser {
     }
     setProfile = async(req, res) => {
         const userId = req.params.id 
-        const {username, about, address, birthday, avatar, cover} = req.body
-        console.log("cai cc")
-        
+        try {
+            const {username, about, address, birthday, avatar, cover} = req.body
+            if(userId){
+                await User.findByIdAndUpdate(userId, {
+                    username: username,
+                    about: about,
+                    address: address,
+                    birthday: birthday,
+                    avatar: avatar,
+                    cover: cover
+                }).exec((error, user) => {
+                    if(error) return res.json({ success: false, message: 'set profile fail' })
+                    if(user){
+                        res
+                        .json({
+                            success: true,
+                            message: 'set profile successfully',
+                        })
+                    }
+                }) 
+            }
+            
+        } catch (error) {
+            res.json(error)
+        }
     }
 
 }

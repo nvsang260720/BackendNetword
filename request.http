@@ -1,31 +1,4 @@
 
-###Register
-POST   http://localhost:3000/api/auth/register
-Content-Type: application/json
-
-{ 
-    "email" : "nvsang.18it2@sict.udn.vn",
-    "password" : "123456789",
-    "username" : "sang 79",
-    "confirmPassword": "123456789"
-}
-
-###Logout
-GET   http://localhost:3000/api/auth/logout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQHNpY3QudWRuLnZuIiwiaWF0IjoxNjQ5OTE0NzcxfQ.X80_vc1FeVa1mJZWDnGcweWsMabtx_p3IoySUfkjAE8
-
-###Login
-POST   http://localhost:3000/api/auth/login
-Content-Type: application/json
-
-{
-    "email" : "nvsang.18it2@sict.udn.vn",
-    "password" : "123456789"
-}
-
-###Get profile
-GET   http://localhost:3000/api/user/profile/627a93e30cba03b9fb8e84bf
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQHNpY3QudWRuLnZuIiwiaWF0IjoxNjUyMjAyMTUyfQ.amIPNPyQfvq2xviVe-v-cjVqqGMmoqKygy5RHCZrZP4
 
 
 ###Set profile
@@ -55,7 +28,8 @@ Content-Type: application/json
     "address": "12334",
     "voted": "123"
 }
-###
+
+##
 DELETE   http://localhost:3000/api/product/delete/61c9b410815e5d6cd5286ab1
 
 ###
@@ -137,3 +111,4 @@ Content-Type: application/json
     "newName" : "nvsang.18it2@sict.udn.vn",
     "about" : "123456789"
 }
+
