@@ -37,7 +37,8 @@ const UserSchema = new Schema({
         default: ""
     },
     gender: {
-        type: Number
+        type: Number,
+        default: 0
     },
     level: {
         type: Number,

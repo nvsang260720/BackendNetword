@@ -3,19 +3,24 @@ const { array } = require('../middleware/uploadImages')
 const Schema =mongoose.Schema
 
 const PostSchema = new Schema({
-    iduser: {
-        type: String,
-        required: true,
-        unique:true,
+    idOwner: { 
+        type: Schema.Types.ObjectId, 
+        ref: "users", 
+        required: true 
     },
-    description: {
-        type: String,
-        required: true,
+    content: {
+      type: String,
+    },
+    heart: {
+      type: Array,
     },
     images: {
-        type: array
+        type: Array,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
-
     
 })
 module.exports = mongoose.model('posts', PostSchema)

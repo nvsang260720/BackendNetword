@@ -31,11 +31,18 @@ const login = async(req, res) => {
         if (!passwordValid)
             return res.json({ success: false, message: 'Email or password already exists' })
 
-        const accessToken = jwt.sign({ user_id: user.email }, process.env.ACCESS_TOKEN)
-
-        res
-            .cookie('access_token', accessToken, { maxAge: 900000, httpOnly: true })
-            .json({
+        const secret = 'secret';
+        const accessToken = jwt.sign(
+            { 
+                user_id: user._id,
+                username: user.username
+            },
+            secret, {
+                expiresIn: "1hr"
+            }
+        );
+        localStorage.setItem("access_token", accessToken)
+        res.json({
                 success: true,
                 message: 'login successfully',
                 token: accessToken,

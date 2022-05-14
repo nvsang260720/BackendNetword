@@ -7,6 +7,8 @@ const expressLayouts = require('express-ejs-layouts')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 var bodyParser = require('body-parser');
+const LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch');
 
 const verifyToken = require('./middleware/auth')
 
