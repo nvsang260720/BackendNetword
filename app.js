@@ -10,10 +10,12 @@ var bodyParser = require('body-parser');
 
 const verifyToken = require('./middleware/auth')
 
+//router backend
+const userRouter = require('./routes/backend/user')
 const adminRouter = require('./routes/backend/admin');
-const homeRouter = require('./routes/backend/home')
+const homeRouter = require('./routes/frontend/home')
 
-//api test
+//api 
 const API = require('./routes/api/API');
 const ApiAuth = require('./routes/api/Auth');
 const ApiUser = require('./routes/api/User');
@@ -39,15 +41,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/css', express.static(__dirname + 'public/css'))
-app.use('/js', express.static(__dirname + 'public/js'))
-app.use('/img', express.static(__dirname + 'public/img'))
-app.use('/stylesheets', express.static(__dirname + 'public/stylesheets'))
-app.use('/vendor', express.static(__dirname + 'public/vendor'))
-app.use('/uploads', express.static( __dirname +'public/uploads'))
+app.use('/css', express.static(__dirname + 'public/css'));
+app.use('/js', express.static(__dirname + 'public/js'));
+app.use('/img', express.static(__dirname + 'public/img'));
+app.use('/stylesheets', express.static(__dirname + 'public/stylesheets'));
+app.use('/vendor', express.static(__dirname + 'public/vendor'));
+app.use('/uploads', express.static( __dirname +'public/uploads'));
 
-app.use('/', homeRouter)
+app.use('/', homeRouter);
 app.use('/admin', adminRouter);
+app.use('/admin/user', userRouter);
 
 //api ApiCategory
 app.use('/api', API);

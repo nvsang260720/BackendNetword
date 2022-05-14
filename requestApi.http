@@ -61,3 +61,10 @@ Content-Type: multipart/form-data
     "upload_avatar": "file"
 }
 
+###
+PATCH http://localhost:3000/api/user/upload-cover/627a93e30cba03b9fb8e84bf
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTQ3OTg2Mn0.jwmxmgyKUcjb7eaSPQw0khAkssatj_linzSsKuvieMQ
+Content-Type: multipart/form-data
+{
+    "upload_cover": "file"
+}
