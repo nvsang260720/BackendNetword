@@ -4,7 +4,6 @@ class updateUser {
 	getUser = async(req, res) => {
 		try {
 			const user = await User.find()
-			console.log(user)
 			res.render('admin/users/listUser', { title: 'Admin', users: user});
 		} catch (error) {
 			res.json({ message: 'get ser fail' })
@@ -16,10 +15,8 @@ class updateUser {
 	}
 	deleteUser = async(req, res) => {
 		const userId = req.params.id 
-		console.log(userId)
 		if(!userId) return res.json("fail id user")
 		try {
-			
 			const deletedUser = await User.findOneAndDelete({_id :userId})
 			if (!deletedUser)
 				res.redirect('/admin')
@@ -32,11 +29,19 @@ class updateUser {
 			res.status(500).json({ success: false, message: 'Internal server error' })
 		}
 	}
+	getProfile = async(req, res) => {
+		const userId = req.params.id
+		try {
+			const user = await User.findById(userId)
+			res.render('admin/users/reviewUser', { title: 'Admin', profile: user});
+		} catch (error) {
+			res.json({ message: 'get ser fail' })
+		}
+	}
 	getUpdateUser = async(req, res) => {
 		const userId = req.params.id
 		try {
 			const user = await User.findById(userId)
-			console.log(user)
 			res.render('admin/users/updateUser', { title: 'Admin', profile: user});
 		} catch (error) {
 			res.json({ message: 'get ser fail' })
@@ -46,6 +51,7 @@ class updateUser {
 	}
 	postUpdateUser = async(req, res) => {
 		const userId = req.params.id
+		console.log(req.files)
 		try {
 			const {avatar, username, about, address, birthday} = req.body
 			User.findByIdAndUpdate(userId, {
@@ -58,7 +64,6 @@ class updateUser {
 			.exec((error, user) => {
 				if(error) return res.json({ success: false, message: 'query cart to data fail' })
 				if(user){
-					console.log(user)
 					res.redirect('/admin/user')
 				}
 			})

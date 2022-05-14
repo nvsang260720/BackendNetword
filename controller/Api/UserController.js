@@ -1,4 +1,6 @@
+
 const User = require('../../models/User')
+const uploads = require('../../middleware/uploadImages')
 
 class managerUser {
     getProfile =  async(req, res) => {
@@ -19,7 +21,6 @@ class managerUser {
                     }
                 }) 
             }
-            
         } catch (error) {
             res.json({ success: false, message: 'get profile fail' })
         }
@@ -50,6 +51,31 @@ class managerUser {
             
         } catch (error) {
             res.json(error)
+        }
+    }
+    uploadAvatar = async(req, res) => {
+        const idUser = req.params.id
+        const pathAvatar = req.file.filename
+        console.log(pathAvatar)
+        try {
+            if(idUser){
+                await User.findOneAndUpdate({ _id: idUser },
+                    {
+                        $set: {avatar: pathAvatar}
+                    }
+                ).exec((error, user) => {
+                    if(error) return res.json({ success: false, message: error })
+                    if(user){
+                        res.json({
+                            success: true, 
+                            message: 'set profile successfully', 
+                            user: user
+                        })
+                    }
+                }) 
+            }
+        } catch (error) {
+            res.json({success: false,message: 'error server',})
         }
     }
 

@@ -5,7 +5,7 @@ const CategoryController = require('../../controller/Backend/CategoryController'
 const AuthController = require('../../controller/Backend/AuthController')
 const UserController = require('../../controller/Backend/UserController')
 
-const uploads = require('../../middleware/backend/uploadImages')
+const uploads = require('../../middleware/uploadImages')
 
 router.get('/', UserController.getHome)
 
@@ -17,9 +17,11 @@ router.get('/user', UserController.getUser)
 
 router.post('/user/:id',UserController.deleteUser)
 
+router.get('/user/view-profile/:id', UserController.getProfile)
+
 router.get('/update-user/:id', UserController.getUpdateUser)
 
-router.post('/update-user/:id' , UserController.postUpdateUser)
+router.post('/update-user/:id' ,uploads.single('uploaded_avata'), UserController.postUpdateUser)
 
 router.get('/get-category', CategoryController.getCategory);
 

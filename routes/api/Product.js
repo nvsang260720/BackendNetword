@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const ProductController = require('../../controller/Api/ProductController')
-const verifyToken = require('../../middleware/api/auth')
+const verifyToken = require('../../middleware/auth')
 
 
 router.get('/get/:id', ProductController.getProducts)

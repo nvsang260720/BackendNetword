@@ -10,6 +10,4 @@ const SearchController = require('../../controller/Api/SearchController')
 
 router.post('/search-key', SearchController.postKey)
 
-
-
 module.exports = router;

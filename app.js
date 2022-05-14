@@ -6,9 +6,11 @@ const path = require('path');
 const expressLayouts = require('express-ejs-layouts')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const fileUpload = require('express-fileupload');
+var multer  =   require('multer');
+var bodyParser = require('body-parser');
 
-
-const verifyToken = require('./middleware/api/auth')
+const verifyToken = require('./middleware/auth')
 
 const adminRouter = require('./routes/backend/admin');
 const homeRouter = require('./routes/backend/home')
@@ -31,6 +33,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('layout', './layouts/layout')
 app.set('view engine', 'ejs');
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

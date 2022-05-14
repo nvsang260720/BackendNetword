@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-outline card-info">
-                    <form action="/admin/update-user/<%= profile._id %>" method="POST">
+                    <form action="/admin/update-user/<%= profile._id %>" method="POST" enctype="multipart/form-data">
                         <div class="card-body">
                                 <input type="file" id="myFile" name="uploaded_avata">
                                 <div class="form-group">

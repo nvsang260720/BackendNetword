@@ -1,3 +1,4 @@
+http://localhost:3000/uploads/avatars/avatar_defaul.png
 ###Register
 POST   http://localhost:3000/api/auth/register
 Content-Type: application/json
@@ -39,3 +40,7 @@ Content-Type: application/json
     "avatar" : "",
     "cover" : ""
 }
+
+###
+PATCH http://localhost:3000/api/user/upload-avatar/627a93e30cba03b9fb8e84bf
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTQ3OTg2Mn0.jwmxmgyKUcjb7eaSPQw0khAkssatj_linzSsKuvieMQ
