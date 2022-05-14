@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) =>{
         req.user = user;
         next()
     } catch (error) {
-        return res.json({ success: false,  message: 'Token Fail' })
+        return res.status(500).json({ success: false,  message: 'Token Fail' })
         
     }
 }

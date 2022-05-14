@@ -36,6 +36,9 @@ const UserSchema = new Schema({
         type: String,
         default: ""
     },
+    gender: {
+        type: Number
+    },
     level: {
         type: Number,
         default: 1

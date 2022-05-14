@@ -28,15 +28,18 @@ class managerUser {
     setProfile = async(req, res) => {
         const userId = req.params.id 
         try {
-            const {username, about, address, birthday, avatar, cover} = req.body
+            const {username, about, address, birthday, gender} = req.body
+            console.log(req.body)
             if(userId){
                 await User.findByIdAndUpdate(userId, {
-                    username: username,
-                    about: about,
-                    address: address,
-                    birthday: birthday,
-                    avatar: avatar,
-                    cover: cover
+                     $set: {
+                        username: username,
+                        about: about,
+                        address: address,
+                        birthday: birthday,
+                        gender: gender
+                     }
+                    
                 }).exec((error, user) => {
                     if(error) return res.json({ success: false, message: 'set profile fail' })
                     if(user){
@@ -55,13 +58,13 @@ class managerUser {
     }
     uploadAvatar = async(req, res) => {
         const idUser = req.params.id
-        const pathAvatar = req.file.filename
+        const pathAvatar = req.file
         console.log(pathAvatar)
         try {
             if(idUser){
                 await User.findOneAndUpdate({ _id: idUser },
                     {
-                        $set: {avatar: pathAvatar}
+                        $set: {avatar: pathAvatar.filename}
                     }
                 ).exec((error, user) => {
                     if(error) return res.json({ success: false, message: error })

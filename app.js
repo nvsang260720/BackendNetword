@@ -6,8 +6,6 @@ const path = require('path');
 const expressLayouts = require('express-ejs-layouts')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const fileUpload = require('express-fileupload');
-var multer  =   require('multer');
 var bodyParser = require('body-parser');
 
 const verifyToken = require('./middleware/auth')

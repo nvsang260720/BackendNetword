@@ -1,4 +1,16 @@
-http://localhost:3000/uploads/avatars/avatar_defaul.png
+# // mô tả api
+# // POST   http://localhost:3000/api/auth/register
+# // Phương thức: post, get, path, put, delete
+# // đường dẫn api:  http://localhost:3000/api/auth/register
+# // header: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQHNpY3QudWRuLnZuIiwiaWF0IjoxNjQ5OTE0NzcxfQ.X80_vc1FeVa1mJZWDnGcweWsMabtx_p3IoySUfkjAE8
+# // -> kiểm tra token
+# // header: Content-Type: application/json
+# // -> nhập vào body api với nội dung là json
+# // header: Content-Type: multipart/form-data
+# // -> truyền file vào trong body
+# #### đường dẫn kho lưu trữ
+# http://localhost:3000/uploads/avatars/avatar_defaul.png
+
 ###Register
 POST   http://localhost:3000/api/auth/register
 Content-Type: application/json
@@ -28,19 +40,24 @@ GET   http://localhost:3000/api/user/profile/627a93e30cba03b9fb8e84bf
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQHNpY3QudWRuLnZuIiwiaWF0IjoxNjUyMjAyMTUyfQ.amIPNPyQfvq2xviVe-v-cjVqqGMmoqKygy5RHCZrZP4
 
 ###
-POST   http://localhost:3000/api/user/profile/627a93e30cba03b9fb8e84bf
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTQ3OTg2Mn0.jwmxmgyKUcjb7eaSPQw0khAkssatj_linzSsKuvieMQ
+POST   http://localhost:3000/api/user/profile/627f710f2c16c1efd18689d9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjI3ZjcxMGYyYzE2YzFlZmQxODY4OWQ5IiwiaWF0IjoxNjUyNTE5MTgzfQ.uqR20FRYaG8AB4yjzGJW8tJMCNbetAagmZUnnZwvaZo
 Content-Type: application/json
 
 {
     "username" : "nguyễn văn sang",
-    "about" : "123456789",
+    "about" : "um ba la chap",
     "address" : "06 nam ki khoi nghia",
     "birthday" : "26-07-2000",
-    "avatar" : "",
-    "cover" : ""
+    "gender" : 0
 }
 
+###// 0 là nữ, 1 là nam
 ###
 PATCH http://localhost:3000/api/user/upload-avatar/627a93e30cba03b9fb8e84bf
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibnZzYW5nLjE4aXQyQGdtYWlsLmNvbSIsImlhdCI6MTYzNTQ3OTg2Mn0.jwmxmgyKUcjb7eaSPQw0khAkssatj_linzSsKuvieMQ
+Content-Type: multipart/form-data
+{
+    "upload_avatar": "file"
+}
+
