@@ -4,11 +4,8 @@ var express = require ('express');
 var moment = require('moment');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts')
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 var bodyParser = require('body-parser');
-const LocalStorage = require('node-localstorage').LocalStorage;
-localStorage = new LocalStorage('./scratch');
 
 const verifyToken = require('./middleware/auth')
 
@@ -25,22 +22,19 @@ const ApiProduct = require('./routes/api/Product')
 const ApiCategory = require('./routes/api/Category')
 
 const connectDB = require('./database/connectDB')
-
 connectDB()
-
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true,}));
 app.use(expressLayouts)
 app.set('views', path.join(__dirname, 'views'));
 app.set('layout', './layouts/layout')
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/css', express.static(__dirname + 'public/css'));

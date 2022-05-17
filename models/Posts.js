@@ -3,13 +3,13 @@ const { array } = require('../middleware/uploadImages')
 const Schema =mongoose.Schema
 
 const PostSchema = new Schema({
-    idOwner: { 
-        type: Schema.Types.ObjectId, 
-        ref: "users", 
-        required: true 
+    userid: {
+      type: String,
+      required: true
     },
     content: {
       type: String,
+      required: true,
     },
     heart: {
       type: Array,
@@ -22,5 +22,5 @@ const PostSchema = new Schema({
         default: Date.now
     }
     
-})
+},{timestamps: true})
 module.exports = mongoose.model('posts', PostSchema)
