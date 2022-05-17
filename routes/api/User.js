@@ -14,6 +14,6 @@ router.patch('/upload-avatar/:id', uploads.single("upload_avatar"), UserControll
 
 router.patch('/upload-cover/:id', uploads.single("upload_cover"), UserController.uploadCover)
 
-router.post('/new-post/', PostController.newPost)
+router.post('/new-post/', uploads.array("upload_posts", 6), PostController.newPost)
 
 module.exports = router;

@@ -1,6 +1,8 @@
 
 const Posts = require('../../models/Posts')
 const User = require('../../models/User')
+const uploads = require('../../middleware/uploadImages')
+
 class PostUser {
     newPost = async(req, res) => {
         const listImage = []
@@ -10,6 +12,7 @@ class PostUser {
         // imagePath.forEach(file => {
         //     listImage.push(file.filename)
         // });
+        
         console.log(JSON.stringify(req.body))
         
 

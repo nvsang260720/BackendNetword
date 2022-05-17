@@ -1,11 +1,12 @@
 require('dotenv').config()
 const createError = require('http-errors');
 var express = require ('express');
-var moment = require('moment');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts')
 const logger = require('morgan');
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer();
 
 const verifyToken = require('./middleware/auth')
 
@@ -25,16 +26,19 @@ const connectDB = require('./database/connectDB')
 connectDB()
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true,}));
 app.use(expressLayouts)
 app.set('views', path.join(__dirname, 'views'));
 app.set('layout', './layouts/layout')
 app.set('view engine', 'ejs');
 
-
-
 app.use(logger('dev'));
+// for parsing application/json
+app.use(bodyParser.json()); 
+
+// for parsing application/xwww-
+app.use(bodyParser.urlencoded({ extended: true })); 
+//form-urlencoded
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/css', express.static(__dirname + 'public/css'));
