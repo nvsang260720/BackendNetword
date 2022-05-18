@@ -13,36 +13,37 @@ class PostUser {
             listImage.push(file.filename);
         });
         if(!content)
-            return res.status(400).json({ message: "missing id Post" });
+            return res.status(400).json({ message: "missing content post" });
         
-        else{
-            const newPost = Posts({
-                ownerid: userID,
-                content: content,
-                images: listImage
-            });
-            await newPost.save()
-            .then((result) => {
-                console.log(result);
-                User.findByIdAndUpdate(userID, {
-                    "$push" : {
-                            "posts": newPost._id
-                        }
+        try {
+            const user = User.findById({userID})
+            if(user){
+                const newPost = Posts({ownerid:userID, content:content, images:listImage});
+                await newPost.save()
+                    .then((newPost) => {
+                        User.findByIdAndUpdate( userID, {
+                            "$push" : {
+                                "posts": newPost._id
+                            }
+                        })
+                        .exec((error, user) => {
+                            if(error) return res.status(300).json({ success: false, message: error })
+                            if(user){
+                                console.log(user);
+                                return res.status(200).json({
+                                    success: true, 
+                                    message: 'set profile successfully', 
+                                    user: user
+                                })
+                            }
+                        })
                     })
-                    .exec((error, user) => {
-                        if(error) return res.status(300).json({ success: false, message: error })
-                        if(user){
-                            return res.status(200).json({
-                                success: true, 
-                                message: 'set profile successfully', 
-                                user: user
-                            })
-                        }
-                })
-            })
-            .catch((err) => {
-                res.status(500).json({ err: err });
-            });
+                .catch((err) => {
+                    res.status(300).json({success: false, message: err });
+                });
+           }
+        } catch (error) {
+            res.status(500).json({success: false, message: err });
         }
     }
 
