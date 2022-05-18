@@ -12,7 +12,7 @@ router.post('/profile/:id', UserController.setProfile)
 
 router.patch('/upload-avatar/', uploads.single("upload_avatar"), UserController.uploadAvatar)
 
-router.patch('/upload-cover/:id', uploads.single("upload_cover"), UserController.uploadCover)
+router.patch('/upload-cover/', uploads.single("upload_cover"), UserController.uploadCover)
 
 router.post('/new-post/', uploads.array("upload_posts", 6), PostController.newPost)
 

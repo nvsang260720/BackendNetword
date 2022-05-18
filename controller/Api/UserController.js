@@ -77,7 +77,7 @@ class managerUser {
         }
     }
     uploadCover = async(req, res) => {
-        const idUser = req.params.id
+        const idUser = req.user.user_id
         const pathCover = req.file
         try {
             if(idUser){
