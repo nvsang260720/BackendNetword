@@ -3,8 +3,9 @@ const router = express.Router();
 
 // const BannerController = require('../../controller/Api/BannerController')
 const SearchController = require('../../controller/Api/SearchController')
+const PostController = require('../../controller/Api/PostController')
 
-// router.post('/add-banner', BannerController.addBanner)
+router.get('/all-post', PostController.allPost)
 
 // router.get('/get-banner', BannerController.getBanner)
 

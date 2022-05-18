@@ -50,6 +50,13 @@ class PostUser {
         }
 
     }
+    allPost = async(req, res) => {
+        try {
+            Posts.find()
+        } catch (error) {
+            
+        }
+    }
 }
 
 module.exports = new PostUser()
