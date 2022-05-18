@@ -16,4 +16,8 @@ router.patch('/upload-cover/', uploads.single("upload_cover"), UserController.up
 
 router.post('/new-post/', uploads.array("upload_posts", 6), PostController.newPost)
 
+router.get('/post/:id', PostController.getPost)
+
+router.put('/like-post/:id', PostController.likePost)
+
 module.exports = router;

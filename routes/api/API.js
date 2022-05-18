@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// const BannerController = require('../../controller/Api/BannerController')
 const SearchController = require('../../controller/Api/SearchController')
 const PostController = require('../../controller/Api/PostController')
 
