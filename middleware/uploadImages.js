@@ -13,8 +13,7 @@ var upload = multer({
     storage: storage,
     fileFilter: function(req, file, callback){
         if(
-            file.mimetype == "image/png" ||
-            file.mimetype == "image/jpg"
+            file.mimetype == "image/png" || file.mimetype == "image/jpg"
         ){
             callback(null, true)
         }else{
@@ -23,7 +22,7 @@ var upload = multer({
         }
     },
     limits: {
-        fieldSize: 1024 * 1024 * 2
+        fieldSize: 1024 * 1024 * 4
     }
 })
 module.exports = upload
