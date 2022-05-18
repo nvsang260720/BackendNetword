@@ -60,14 +60,11 @@ class managerUser {
         const pathAvatar = req.file
         try {
             if(idUser){
-                await User.findOneAndUpdate({ _id: idUser },
-                    {
-                        $set: {avatar: pathAvatar.filename}
-                    }
-                ).exec((error, user) => {
-                    if(error) return res.json({ success: false, message: error })
+                await User.findOneAndUpdate(idUser, { avatar: pathAvatar.filename })
+                .exec((error, user) => {
+                    if(error) return res.status(300).json({ success: false, message: error })
                     if(user){
-                        res.json({
+                        res.status(200).json({
                             success: true, 
                             message: 'set profile successfully', 
                             user: user
