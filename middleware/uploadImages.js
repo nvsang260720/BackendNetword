@@ -6,8 +6,7 @@ var  storage = multer.diskStorage({
         cb(null, './public/uploads/avatars')
     },
     filename: function(req, file, cb){
-        let ext = path.extname(file.originalname)
-        cb(null, Date.now() + ext)
+        cb(null, req.user.user_id + "-" + file.originalname)
     }
 })
 var upload = multer({

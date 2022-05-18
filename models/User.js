@@ -2,15 +2,13 @@ const mongoose = require('mongoose')
 const Schema =mongoose.Schema
 
 const UserSchema = new Schema({
-    username: {
-        type: String,
-        required: true,
-        unique:true,
-    },
     email: {
         type: String,
         required: true,
-        unique:true,
+    },
+    username: {
+        type: String,
+        required: true,
     },
     password: {
         type: String,
@@ -18,11 +16,11 @@ const UserSchema = new Schema({
     },
     avatar: {
         type: String,
-        default: ""
+        default: "avatarDefault.png"
     },
     cover: {
         type: String,
-        default: ""
+        default: "coverDefault.png"
     },
     about: {
         type: String,
@@ -44,6 +42,10 @@ const UserSchema = new Schema({
         type: Number,
         default: 1
     },
+    posts: [{
+        type: Schema.Types.ObjectId,
+        ref: "posts"
+    }],
     createdAt: {
         type: Date,
         default: Date.now

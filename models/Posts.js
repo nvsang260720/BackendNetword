@@ -1,19 +1,26 @@
 const mongoose = require('mongoose')
-const { array } = require('../middleware/uploadImages')
 const Schema =mongoose.Schema
 
 const PostSchema = new Schema({
-    userid: {
-      type: String,
-      required: true
+    ownerid: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      unique: false
     },
     content: {
       type: String,
       required: true,
     },
-    heart: {
-      type: Array,
-    },
+    like: [{
+      userid: {
+        type: Schema.Types.ObjectId, 
+        required: true
+      },
+      liked: {
+        type: Number,
+        required: true
+      }
+    }],
     images: {
         type: Array,
     },
@@ -22,5 +29,5 @@ const PostSchema = new Schema({
         default: Date.now
     }
     
-},{timestamps: true})
+}, {timestamp: true})
 module.exports = mongoose.model('posts', PostSchema)
