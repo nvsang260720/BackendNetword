@@ -56,11 +56,11 @@ class managerUser {
         }
     }
     uploadAvatar = async(req, res) => {
-        const idUser = user.user_id
+        const idUser = req.user.user_id
         const pathAvatar = req.file
         console.log(idUser)
         if(!idUser)
-            return res.status(300).json({ success: false, message: "missing email or password" }) 
+            return res.status(300).json({ success: false, message: "missing id user " }) 
         try {
             await User.findByIdAndUpdate(idUser, { avatar: pathAvatar.filename })
             .exec((error, user) => {
