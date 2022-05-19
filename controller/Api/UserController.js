@@ -56,7 +56,7 @@ class managerUser {
         }
     }
     uploadAvatar = async(req, res) => {
-        const idUser = req.body
+        const idUser = user.user_id
         const pathAvatar = req.file
         console.log(idUser)
         if(!idUser)
