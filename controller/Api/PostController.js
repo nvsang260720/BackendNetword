@@ -14,7 +14,6 @@ class PostUser {
         });
         if(!content)
             return res.status(400).json({ message: "missing content post" });
-        
         try {
             const user = User.findById({userID})
             if(user){
