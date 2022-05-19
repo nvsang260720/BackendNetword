@@ -59,20 +59,20 @@ class managerUser {
         const idUser = req.body
         const pathAvatar = req.file
         console.log(idUser)
+        if(!idUser)
+            return res.status(300).json({ success: false, message: "missing email or password" }) 
         try {
-            if(idUser){
-                await User.findOneAndUpdate(idUser, { avatar: pathAvatar.filename })
-                .exec((error, user) => {
-                    if(error) return res.status(300).json({ success: false, message: error })
-                    if(user){
-                        res.status(200).json({
-                            success: true, 
-                            message: 'upload avatar successfully', 
-                            user: user
-                        })
-                    }
-                }) 
-            }
+            await User.findByIdAndUpdate(idUser, { avatar: pathAvatar.filename })
+            .exec((error, user) => {
+                if(error) return res.status(300).json({ success: false, message: error })
+                if(user){
+                    res.status(200).json({
+                        success: true, 
+                        message: 'upload avatar successfully', 
+                        user: user
+                    })
+                }
+            }) 
         } catch (error) {
             res.status(500).json({success: false, message: error,})
         }
