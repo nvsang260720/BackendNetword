@@ -56,8 +56,9 @@ class managerUser {
         }
     }
     uploadAvatar = async(req, res) => {
-        const idUser = req.user.user_id
+        const idUser = req.body
         const pathAvatar = req.file
+        console.log(idUser)
         try {
             if(idUser){
                 await User.findOneAndUpdate(idUser, { avatar: pathAvatar.filename })
@@ -66,7 +67,7 @@ class managerUser {
                     if(user){
                         res.status(200).json({
                             success: true, 
-                            message: 'set profile successfully', 
+                            message: 'upload avatar successfully', 
                             user: user
                         })
                     }
