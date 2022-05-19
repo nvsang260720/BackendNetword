@@ -10,7 +10,7 @@ router.get('/profile/:id', UserController.getProfile)
 
 router.post('/profile/:id', UserController.setProfile)
 
-router.patch('/upload-avatar/', uploads.single("upload_avatar"), UserController.uploadAvatar)
+router.post('/upload-avatar/', uploads.single("upload_avatar"), UserController.uploadAvatar)
 
 router.patch('/upload-cover/', uploads.single("upload_cover"), UserController.uploadCover)
 
