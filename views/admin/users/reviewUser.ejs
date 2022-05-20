@@ -77,10 +77,18 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <a class="btn btn-info " target="__blank"href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                            <form action="/admin/user/view-profile/<%= profile._id %>" method="GET">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            <div class="col-1">
+                                <form action="/admin/user/update-user/<%= profile._id %>" method="GET">
+                                    <button type="submit" class="btn btn-info">Edit</button>
+                                </form>
+                            </div>
+                            <div class="col-1">
+                                <form style="margin-left: 20 ;" action="/admin/user/view-profile/<%= profile._id %>" method="GET">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                            
+                            
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">
+                Quản lí tài bài posts
+            </h3>
+        </div>
+        <div class="card-body">
+            <table id="example" class="table table-striped table-bordered">
+                <thead class="theadTable">
+                    <tr>
+                        <th style="width: 3%;">STT</th>
+                        <th style="width: 10%;">ID</th>
+                        <th style="width: 10%;">Owner id</th>
+                        <th style="width: 20%;">Content</th>
+                        <th style="width: 10%;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for( var i=0; i < posts.length; i++){ %>
+                        <tr>
+                            <td class="centerTD">
+                                <%= i+1 %>
+                            </td>
+                            <td>
+                                <%= posts[i]._id %>
+                            </td>
+                            <td>
+                                <%= posts[i].ownerid %>
+                            </td>
+                            <td>
+                                <%= posts[i].content %>
+                            </td>
+                            <td class="bt">
+                                <form action="/admin/user/view-profile/<%= posts[i]._id %>" method="GET">
+                                    <button type="submit" class="btn btn-primary">Review</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
