@@ -80,23 +80,25 @@ class managerUser {
     uploadCover = async(req, res) => {
         const idUser = req.user.user_id
         const pathCover = req.file
+        console.log(idUser)
+        if(!idUser)
+            return res.status(300).json({ success: false, message: "missing id user " }) 
         try {
-            if(idUser){
-                await User.findOneAndUpdate({ _id: idUser },
-                    {
-                        $set: {cover: pathCover.filename}
-                    }
-                ).exec((error, user) => {
-                    if(error) return res.json({ success: false, message: error })
-                    if(user){
-                        res.json({
-                            success: true, 
-                            message: 'set profile successfully', 
-                            user: user
-                        })
-                    }
-                }) 
-            }
+            await User.findByIdAndUpdate({ _id: idUser },
+                {
+                    $set: {cover: pathCover.filename}
+                }
+            ).exec((error, user) => {
+                if(error) return res.status(300).json({ success: false, message: error })
+                if(user){
+                    res.status(200).json({
+                        success: true, 
+                        message: 'set profile successfully', 
+                        user: user
+                    })
+                }
+            }) 
+            
         } catch (error) {
             res.status(500).json({success: false,message: 'error server',})
         }

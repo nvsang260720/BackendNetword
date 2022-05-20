@@ -16,31 +16,33 @@ class PostUser {
             return res.status(400).json({ message: "missing content post" });
         try {
             const user = User.findById({userID})
-            if(user){
-                const newPost = Posts({ownerid:userID, content:content, images:listImage});
-                await newPost.save()
-                    .then((newPost) => {
-                        User.findByIdAndUpdate( userID, {
-                            "$push" : {
-                                "posts": newPost._id
-                            }
-                        })
-                        .exec((error, user) => {
-                            if(error) return res.status(300).json({ success: false, message: error })
-                            if(user){
-                                console.log(user);
-                                return res.status(200).json({
-                                    success: true, 
-                                    message: 'set profile successfully', 
-                                    user: user
-                                })
-                            }
-                        })
+            if(!user)
+                return res.status(400).json({ message: "missing content user" });
+
+            const newPost = Posts({ownerid:userID, content:content, images:listImage});
+            await newPost.save()
+                .then((newPost) => {
+                    User.findByIdAndUpdate( userID, {
+                        "$push" : {
+                            "posts": newPost._id
+                        }
                     })
-                .catch((err) => {
-                    res.status(300).json({success: false, message: err });
-                });
-           }
+                    .exec((error, user) => {
+                        if(error) return res.status(300).json({ success: false, message: error })
+                        if(user){
+                            console.log(user);
+                            return res.status(200).json({
+                                success: true, 
+                                message: 'set profile successfully', 
+                                user: user
+                            })
+                        }
+                    })
+                })
+            .catch((err) => {
+                res.status(300).json({success: false, message: err });
+            });
+           
         } catch (error) {
             res.status(500).json({success: false, message: err });
         }
@@ -69,11 +71,11 @@ class PostUser {
         }
     }
     getPost = async(req, res) => {
-        const postID = req.params.id
-        if(!postID)
+        const userID = req.user.user_id
+        if(!userID)
             return res.status(300).json({ success: false, message: "missing id Post" })
         try {
-            await Posts.find(postID)
+            await Posts.find({ownerid: userID})
             .exec((error, post) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(post){
