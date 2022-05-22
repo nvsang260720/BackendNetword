@@ -115,12 +115,11 @@ class PostUser {
             .exec((error, post) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(post){
-                    var liked = []
+                    const liked = []
                     liked.push(post.like)
+                    const arrayLike = liked.flat(Infinity)
                    
-                    if (typeof liked !== 'undefined' && liked.length > 0) {
-                        // the array is defined and has at least one element 
-                        console.log("hello")
+                    if (typeof arrayLike == 'undefined' && arrayLike.length == 0) {
                         Posts.findByIdAndUpdate({_id: postID},
                             {
                             "$push" : {
@@ -143,10 +142,49 @@ class PostUser {
                         })
                     }
                     else{
-                        console.log(liked);
+                        if(arrayLike.indexOf(userID)){
+                            console.log("hello");
+                            Posts.findByIdAndUpdate({_id: postID},
+                            {
+                                "$set" : {
+                                    "like" : {
+                                        liked : 0
+                                    }
+                                }
+                            })
+                            .exec((error, post) => {
+                                if(error) return res.status(300).json({ success: false, message: error })
+                                if(post){
+                                    return res.status(200)
+                                    .json({
+                                        success: true, 
+                                        message: 'Dislike Liked this post successfully', 
+                                        posts: post
+                                    })
+                                }
+                            })
+                        }else{
+                            Posts.findByIdAndUpdate({_id: postID},
+                            {
+                                "$set" : {
+                                    "like" : {
+                                        liked : 1
+                                    }
+                                }
+                            })
+                            .exec((error, post) => {
+                                if(error) return res.status(300).json({ success: false, message: error })
+                                if(post){
+                                    return res.status(200)
+                                    .json({
+                                        success: true, 
+                                        message: 'Like this post successfully', 
+                                        posts: post
+                                    })
+                                }
+                            })
+                        }
                     }
-                   
-  
                 }
             })
         } catch (error) {
