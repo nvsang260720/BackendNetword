@@ -94,7 +94,7 @@ const deleteCart = async(req, res) => {
 		res.status(500).json({ success: false, message: 'Internal server error' })
     }
 }
-
+//lhj
 const  getCart = async (req, res) => {
     await Cart.find({
         user: req.user.user_id

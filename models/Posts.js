@@ -4,6 +4,7 @@ const Schema =mongoose.Schema
 const PostSchema = new Schema({
     ownerid: {
       type: Schema.Types.ObjectId,
+      ref: 'users',
       required: true,
       unique: false
     },
