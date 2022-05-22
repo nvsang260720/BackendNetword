@@ -51,6 +51,10 @@ class PostUser {
     allPost = async(req, res) => {
         try {
             await Posts.find()
+            .populate({
+                path: 'ownerid',
+                select: ['username', 'avatar']
+            })
             .exec((error, posts) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(posts){
@@ -126,10 +130,20 @@ class PostUser {
 
                                 }
                             }
+                        }).exec((error, post) => {
+                            if(error) return res.status(300).json({ success: false, message: error })
+                            if(post){
+                                return res.status(200)
+                                .json({
+                                    success: true, 
+                                    message: 'liked this post successfully', 
+                                    posts: post
+                                })
+                            }
                         })
                     }
                     else{
-
+                        console.log(liked);
                     }
                    
   
