@@ -1,17 +1,15 @@
-
 const Posts = require('../../models/Posts')
 const User = require('../../models/User')
 const uploads = require('../../middleware/uploadImages')
+const cloudinary = require('../../utils/cloudinary')
 
 class PostUser {
     newPost = async(req, res) => {
-        const listImage = [];
-        const imagePath = req.files;
+        let pictureFiles = req.files;
+        var listImage = [];
         const { content } = req.body;
         const userID = req.user.user_id;
-        imagePath.forEach(file => {
-            listImage.push(file.filename);
-        });
+
         if(!content)
             return res.status(400).json({ success: false, message: "missing content post" });
         try {
@@ -19,7 +17,17 @@ class PostUser {
             if(!user)
                 return res.status(400).json({success: false, message: "missing content user" });
 
-            const newPost = Posts({ownerid:userID, content:content, images:listImage});
+            await pictureFiles.map( async(picture) => {
+                const img= await cloudinary.uploader.upload(picture.path, {
+                    upload_preset: 'upload_avata'
+                })
+                listImage.push(img.url);
+                console.log("cloud ",listImage)
+
+            });
+            
+            console.log("cloud 1 ",listImage)
+            const newPost = await Posts({ownerid:userID, content:content, images:listImage});
             await newPost.save()
                 .then((newPost) => {
                     User.findByIdAndUpdate( userID, {
@@ -44,7 +52,7 @@ class PostUser {
             });
            
         } catch (error) {
-            res.status(500).json({success: false, message: err });
+            res.status(500).json({success: false, message: error });
         }
     }
 

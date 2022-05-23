@@ -61,8 +61,8 @@ class managerUser {
         const pathAvatar = req.file
         console.log(idUser)
 
-        if(!idUser)
-            return res.status(300).json({ success: false, message: "missing id user " }) 
+        if(!idUser || !pathAvatar)
+            return res.status(300).json({ success: false, message: "missing id user or file" }) 
         try {
             const result = await cloudinary.uploader.upload(req.file.path, {
                 upload_preset: 'upload_avata'
@@ -86,8 +86,8 @@ class managerUser {
         const idUser = req.user.user_id
         const pathCover = req.file
         console.log(idUser)
-        if(!idUser)
-            return res.status(300).json({ success: false, message: "missing id user " }) 
+        if(!idUser || !pathCover)
+            return res.status(300).json({ success: false, message: "missing id user or cover" }) 
         try {
             const result = await cloudinary.uploader.upload(req.file.path, {
                 upload_preset: 'upload_avata'
