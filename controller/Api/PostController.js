@@ -6,28 +6,28 @@ const cloudinary = require('../../utils/cloudinary')
 class PostUser {
     newPost = async(req, res) => {
         let pictureFiles = req.files;
-        var listImage = [];
+        var listUrl = [];
         const { content } = req.body;
         const userID = req.user.user_id;
 
         if(!content)
             return res.status(400).json({ success: false, message: "missing content post" });
         try {
-            const user = User.findById({userID})
+            const user = await User.findById({_id: userID})
             if(!user)
                 return res.status(400).json({success: false, message: "missing content user" });
 
-            await pictureFiles.map( async(picture) => {
-                const img= await cloudinary.uploader.upload(picture.path, {
+            for (let file of req.files) {
+                await cloudinary.uploader.upload(file.path, {
                     upload_preset: 'upload_avata'
+                }).then(result => {
+                    listUrl.push(result.url);
                 })
-                listImage.push(img.url);
-                console.log("cloud ",listImage)
-
-            });
-            
-            console.log("cloud 1 ",listImage)
-            const newPost = await Posts({ownerid:userID, content:content, images:listImage});
+                .catch(err => {
+                    console.log(err);
+                });
+            }
+            const newPost = await Posts({ownerid:userID, content:content, images: listUrl});
             await newPost.save()
                 .then((newPost) => {
                     User.findByIdAndUpdate( userID, {
