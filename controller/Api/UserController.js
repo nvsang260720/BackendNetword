@@ -1,5 +1,6 @@
 
 const User = require('../../models/User')
+const Friends = require('../../models/Friends')
 const cloudinary =require('../../utils/cloudinary')
 
 class managerUser {
@@ -97,17 +98,18 @@ class managerUser {
     uploadCover = async(req, res) => {
         const idUser = req.user.user_id
         const pathCover = req.file
-        console.log(idUser)
+
         if(!idUser || !pathCover)
             return res.status(300).json({ success: false, message: "missing id user or cover" }) 
         try {
-            const checkUser = await User.findById(userId)
+            const checkUser = await User.findById(idUser)
             if(!checkUser)
                 return res.status(300).json({ success: false, message: "Account does not exist" }) 
 
             const result = await cloudinary.uploader.upload(req.file.path, {
                 upload_preset: 'upload_avata'
             })
+    
             await User.findByIdAndUpdate(idUser ,{cover: result.url})
             .exec((error, user) => {
                 if(error) return res.status(300).json({ success: false, message: error })
@@ -122,6 +124,51 @@ class managerUser {
             
         } catch (error) {
             res.status(500).json({success: false,message: 'error server',})
+        }
+    }
+    addFriend = async(req, res) => {
+        const friendId = req.body
+        const userId = req.user.user_id
+        console.log(userId);
+        if (!friendId || !userId)
+            return res.status(300).json({ success: false, message: "Missing id user or friends" }) 
+
+        if(friendId === userId)
+            return res.status(300).json({ success: false, message: "Must not be duplicated" })
+
+        try {
+            const checkUserId = await User.findById(userId)
+            const checkFriendId = await User.findById(friendId)
+            if(!checkUserId || !checkFriendId)
+                return res.status(300).json({ success: false, message: "Account does not exist" }) 
+            
+            const newFriend = await Friends({ownerid: userId, id_friend: friendId })
+            console.log("hello");
+            await newFriend.save()
+            .then((newFriend) => {
+                console.log(newFriend);
+                // User.findByIdAndUpdate( userID, {
+                //     "$push" : {
+                //         "posts": newPost._id
+                //     }
+                // })
+                // .exec((error, user) => {
+                //     if(error) return res.status(300).json({ success: false, message: error })
+                //     if(user){
+                //         console.log("add posts successfully");
+                //         return res.status(200).json({
+                //             success: true, 
+                //             message: 'add posts successfully', 
+                //             post: newPost
+                //         })
+                //     }
+                // })
+            })
+            .catch((err) => {
+                res.status(300).json({success: false, message: err });
+            });
+        } catch (error) {
+            
         }
     }
     

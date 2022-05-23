@@ -47,6 +47,10 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "posts"
     }],
+    friends: {
+        type: Schema.Types.ObjectId,
+        ref: "friends" 
+    },
     createdAt: {
         type: Date,
         default: Date.now
