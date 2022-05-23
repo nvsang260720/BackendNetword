@@ -75,10 +75,11 @@ class managerUser {
             if(!checkUser)
                 return res.status(300).json({ success: false, message: "Account does not exist" }) 
 
-            const result = await cloudinary.uploader.upload(req.file.path, {
+            const result = await cloudinary.uploader.upload(pathAvatar.path, {
                 upload_preset: 'upload_avata'
             })
-            await User.findByIdAndUpdate(idUser, { avatar: result.url })
+            console.log(result);
+            await User.findByIdAndUpdate(userId, { avatar: result.url })
             .exec((error, user) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(user){
