@@ -1,5 +1,6 @@
 
 const User = require('../../models/User')
+const cloudinary =require('../../utils/cloudinary')
 
 class managerUser {
     getProfile =  async(req, res) => {
@@ -59,10 +60,14 @@ class managerUser {
         const idUser = req.user.user_id
         const pathAvatar = req.file
         console.log(idUser)
+
         if(!idUser)
             return res.status(300).json({ success: false, message: "missing id user " }) 
         try {
-            await User.findByIdAndUpdate(idUser, { avatar: pathAvatar.filename })
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                upload_preset: 'upload_avata'
+            })
+            await User.findByIdAndUpdate(idUser, { avatar: result.url })
             .exec((error, user) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(user){
@@ -84,11 +89,11 @@ class managerUser {
         if(!idUser)
             return res.status(300).json({ success: false, message: "missing id user " }) 
         try {
-            await User.findByIdAndUpdate({ _id: idUser },
-                {
-                    $set: {cover: pathCover.filename}
-                }
-            ).exec((error, user) => {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                upload_preset: 'upload_avata'
+            })
+            await User.findByIdAndUpdate(idUser ,{cover: result.url})
+            .exec((error, user) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(user){
                     res.status(200).json({

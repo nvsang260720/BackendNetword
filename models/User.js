@@ -17,11 +17,11 @@ const UserSchema = new Schema({
     },
     avatar: {
         type: String,
-        default: "avatarDefault.png"
+        default: "https://res.cloudinary.com/drqaocsli/image/upload/v1653275810/avatar_defaul_ekmmv0.png"
     },
     cover: {
         type: String,
-        default: "coverDefault.png"
+        default: "https://res.cloudinary.com/drqaocsli/image/upload/v1653275816/cover_defaul_slhse1.png"
     },
     about: {
         type: String,

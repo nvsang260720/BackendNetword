@@ -58,8 +58,8 @@ class PostUser {
             .exec((error, posts) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(posts){
-                    res.status(200)
-                    .json({
+                    console.log(posts);
+                    return res.status(200).json({
                         success: true, 
                         message: 'get post successfully', 
                         posts: posts
@@ -87,8 +87,8 @@ class PostUser {
             .exec((error, post) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(post){
-                    res.status(200)
-                    .json({
+                    console.log(post);
+                    return res.status(200).json({
                         success: true, 
                         message: 'get post successfully', 
                         posts: post

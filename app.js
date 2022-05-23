@@ -21,9 +21,10 @@ const ApiAuth = require('./routes/api/Auth');
 const ApiUser = require('./routes/api/User');
 const ApiProduct = require('./routes/api/Product')
 const ApiCategory = require('./routes/api/Category')
+const connectDB = require('./utils/connectDB')
 
-const connectDB = require('./database/connectDB')
 connectDB()
+
 const app = express();
 
 app.use(expressLayouts)

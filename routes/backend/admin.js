@@ -12,4 +12,6 @@ router.post('/login', AuthController.postLogin)
 
 router.get('/all-post', PostController.allPost)
 
+
+
 module.exports = router;

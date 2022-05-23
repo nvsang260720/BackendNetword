@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UserController = require('../../controller/Backend/UserController')
+const PostController = require('../../controller/Backend/PostController')
 
 const uploads = require('../../middleware/uploadImages')
 
@@ -16,5 +17,6 @@ router.patch('/upload-avatar/:id' ,uploads.single('uploaded_avata'), UserControl
 
 router.patch('/upload-cover/:id' ,uploads.single('uploaded_cover'), UserController.postUpdateUser)
 
+router.delete('/post/:id', PostController.deletePost)
 
 module.exports = router;

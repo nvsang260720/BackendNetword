@@ -13,7 +13,8 @@
                         <th style="width: 10%;">ID</th>
                         <th style="width: 10%;">Owner id</th>
                         <th style="width: 20%;">Content</th>
-                        <th style="width: 10%;">Action</th>
+                        <th style="width: 10%;">Review</th>
+                        <th style="width: 10%;">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +35,11 @@
                             <td class="bt">
                                 <form action="/admin/user/view-profile/<%= posts[i]._id %>" method="GET">
                                     <button type="submit" class="btn btn-primary">Review</button>
+                                </form>
+                            </td>
+                            <td class="bt">
+                                <form action="/admin/user/post/<%= posts[i]._id %>" method="DELETE">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
                         </tr>

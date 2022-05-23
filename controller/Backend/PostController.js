@@ -10,6 +10,9 @@ class ManagerPost {
 			res.json({ message: 'get ser fail' })
 		}
     }
+	deletePost = async(req, res) => {
+		res.json({ message: 'get ser fail' })
+	}
 }
 
 module.exports = new ManagerPost();

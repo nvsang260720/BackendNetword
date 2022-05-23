@@ -15,6 +15,7 @@
     "argon2": "^0.28.2",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
+    "cloudinary": "^1.30.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",
@@ -34,7 +35,8 @@
     "node-pre-gyp": "0.6.x",
     "path": "^0.12.7",
     "redis": "^3.1.2",
-    "regexp": "^1.0.0"
+    "regexp": "^1.0.0",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
