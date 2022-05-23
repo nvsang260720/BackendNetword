@@ -17,6 +17,6 @@ router.patch('/upload-avatar/:id' ,uploads.single('uploaded_avata'), UserControl
 
 router.patch('/upload-cover/:id' ,uploads.single('uploaded_cover'), UserController.postUpdateUser)
 
-router.delete('/post/:id', PostController.deletePost)
+router.post('/post/:id', PostController.deletePost)
 
 module.exports = router;
