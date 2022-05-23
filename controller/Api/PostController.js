@@ -15,7 +15,7 @@ class PostUser {
         try {
             const user = await User.findById({_id: userID})
             if(!user)
-                return res.status(400).json({success: false, message: "missing content user" });
+                return res.status(400).json({success: false, message: "Account does not exist" });
 
             for (let file of req.files) {
                 await cloudinary.uploader.upload(file.path, {
@@ -83,11 +83,15 @@ class PostUser {
         }
     }
     getPost = async(req, res) => {
-        const userID = req.user.user_id
-        if(!userID)
+        const userId = req.user.user_id
+        if(!userId)
             return res.status(300).json({ success: false, message: "missing token" })
         try {
-            await Posts.find({ownerid: userID})
+            const checkUser = await User.findById(userId)
+            if(!checkUser)
+                return res.status(300).json({ success: false, message: "Account does not exist" }) 
+               
+            await Posts.find({ownerid: userId})
             .populate({
                 path: 'ownerid',
                 select: ['username', 'avatar']
@@ -112,16 +116,20 @@ class PostUser {
         }
     }
     likePost = async(req, res) => {
-        const postID = req.params.id
-        const userID = req.user.user_id 
+        const postId = req.params.id
+        const userId = req.user.user_id 
         const {statusLike} = req.body
         console.log("Status like: " + statusLike);
-        console.log("User id: " + userID)
-        if(!postID)
+        console.log("User id: " + userId)
+        if(!postId)
             return res.status(300).json({ success: false, message: "missing id Post" })
         try {
-            const checkPost = Posts.findById({userid: postID})
-            await Posts.findById(postID)
+            const checkUser = await User.findById(userId)
+            const checkPost = await Posts.findById(postId)
+            if(!checkUser || !checkPost)
+                return res.status(300).json({ success: false, message: "Account or Posts does not exist" }) 
+
+            await Posts.findById(postId)
             .exec((error, post) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(post){
@@ -131,14 +139,14 @@ class PostUser {
                     
                     var checkID = arrayLike.map(function(e) {
                         return e.userid;
-                    }).includes(userID);
+                    }).includes(userId);
 
                     if (checkID == false) {
-                        Posts.findByIdAndUpdate({_id: postID},
+                        Posts.findByIdAndUpdate({_id: postId},
                             {
                             "$push" : {
                                 "like" : {
-                                    userid : userID,
+                                    userid : userId,
                                     liked : 1
                                 }
                             }
@@ -154,11 +162,11 @@ class PostUser {
                         })
                     }
                     else{
-                        Posts.findByIdAndUpdate({_id: postID},
+                        Posts.findByIdAndUpdate({_id: postId},
                             {
                             "$set" : {
                                 "like" : {
-                                    userid : userID,
+                                    userid : userId,
                                     liked : statusLike
 
                                 }

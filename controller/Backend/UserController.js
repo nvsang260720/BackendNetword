@@ -15,13 +15,14 @@ class updateUser {
 	}
 	deleteUser = async(req, res) => {
 		const userId = req.params.id 
+		console.log("userid :",userId);
 		if(!userId) return res.json("fail id user")
 		try {
 			const deletedUser = await User.findOneAndDelete({_id :userId})
 			if (!deletedUser)
 				res.redirect('/admin')
 			else {
-				res.redirect('/admin/get-user')
+				res.redirect('/admin/user')
 				
 			}	
 		} catch (error) {
