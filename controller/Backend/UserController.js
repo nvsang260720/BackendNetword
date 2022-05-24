@@ -1,4 +1,5 @@
 const User = require('../../models/User')
+const Posts = require('../../models/Posts')
 
 class updateUser {
 	getUser = async(req, res) => {
@@ -33,8 +34,24 @@ class updateUser {
 	getProfile = async(req, res) => {
 		const userId = req.params.id
 		try {
-			const user = await User.findById(userId)
-			res.render('admin/users/reviewUser', { title: 'Admin', profile: user});
+			await User.findById(userId).exec((error, user) => {
+                if(error) return res.redirect('/admin')
+                if(user){
+					console.log(user.posts);
+					Posts.find({_id: {$in : user.posts}}).exec((error, post) => {
+						if(error) return res.redirect('/admin')
+						if(post){
+
+							console.log(post);
+							res.render('admin/users/reviewUser', { title: 'Admin', profile: user, posts: post});
+							
+						}
+					}) 
+                    
+                }
+            }) 
+		
+			
 		} catch (error) {
 			res.json({ message: 'get ser fail' })
 		}

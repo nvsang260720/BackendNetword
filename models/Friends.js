@@ -3,12 +3,14 @@ const Schema =mongoose.Schema
 
 const FriendSchema = new Schema({
     ownerid: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
+        required: true,
+        unique: true
     },
     friends: [
         {
-            id_friend: {
+            friend_id: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'users',
                 required: true 

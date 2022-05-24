@@ -127,9 +127,10 @@ class managerUser {
         }
     }
     addFriend = async(req, res) => {
-        const friendId = req.body
+        const friendId = req.body.idFriend
         const userId = req.user.user_id
         console.log(userId);
+        console.log(friendId);
         if (!friendId || !userId)
             return res.status(300).json({ success: false, message: "Missing id user or friends" }) 
 
@@ -142,27 +143,32 @@ class managerUser {
             if(!checkUserId || !checkFriendId)
                 return res.status(300).json({ success: false, message: "Account does not exist" }) 
             
-            const newFriend = await Friends({ownerid: userId, id_friend: friendId })
+            const newFriend = await Friends({
+                ownerid: userId, 
+                friends: [{
+                    friend_id: friendId 
+                }] 
+            })
             console.log("hello");
             await newFriend.save()
             .then((newFriend) => {
                 console.log(newFriend);
-                // User.findByIdAndUpdate( userID, {
-                //     "$push" : {
-                //         "posts": newPost._id
-                //     }
-                // })
-                // .exec((error, user) => {
-                //     if(error) return res.status(300).json({ success: false, message: error })
-                //     if(user){
-                //         console.log("add posts successfully");
-                //         return res.status(200).json({
-                //             success: true, 
-                //             message: 'add posts successfully', 
-                //             post: newPost
-                //         })
-                //     }
-                // })
+                User.findByIdAndUpdate( userID, {
+                    "$push" : {
+                        "posts": newPost._id
+                    }
+                })
+                .exec((error, user) => {
+                    if(error) return res.status(300).json({ success: false, message: error })
+                    if(user){
+                        console.log("add posts successfully");
+                        return res.status(200).json({
+                            success: true, 
+                            message: 'add posts successfully', 
+                            post: newPost
+                        })
+                    }
+                })
             })
             .catch((err) => {
                 res.status(300).json({success: false, message: err });
