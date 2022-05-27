@@ -1,5 +1,6 @@
 const User = require('../../models/User')
 const Posts = require('../../models/Posts')
+const Friends = require('../../models/Friends')
 
 class updateUser {
 	getUser = async(req, res) => {
@@ -33,18 +34,20 @@ class updateUser {
 	}
 	getProfile = async(req, res) => {
 		const userId = req.params.id
+	
 		try {
-			await User.findById(userId).exec((error, user) => {
+			await User.findById(userId).exec( (error, user) => {
                 if(error) return res.redirect('/admin')
                 if(user){
-					console.log(user.posts);
+					const ListFriend =  Friends.find({ownerid:  user.friends }).exec();
+                    ListFriend.map((user) => {
+						console.log(user);
+					})
+					
 					Posts.find({_id: {$in : user.posts}}).exec((error, post) => {
 						if(error) return res.redirect('/admin')
 						if(post){
-
-							console.log(post);
-							res.render('admin/users/reviewUser', { title: 'Admin', profile: user, posts: post});
-							
+							res.render('admin/users/reviewUser', { title: 'Admin', profile: user, posts: post, friends: ListFriend });	
 						}
 					}) 
                     
