@@ -22,16 +22,6 @@ router.put('/like-post/:id', PostController.likePost)
 
 router.post('/add-friend/', UserController.addFriend)
 
-// router.post('/upload/', uploads.single("upload_avatar"), async(req, res) => {
-//     try {
-//         const result = await cloudinary.uploader.upload(req.file.path, {
-//             upload_preset: 'upload_avata'
-//         })
-//         console.log(result)
-//     } catch (error) {
-//         console.log(error)
-//     }
 
-// })
 
 module.exports = router;

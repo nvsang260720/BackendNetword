@@ -129,8 +129,6 @@ class managerUser {
     addFriend = async(req, res) => {
         const friendId = req.body.idFriend
         const userId = req.user.user_id
-        console.log(userId);
-        console.log(friendId);
         if (!friendId || !userId)
             return res.status(300).json({ success: false, message: "Missing id user or friends" }) 
 
@@ -138,41 +136,72 @@ class managerUser {
             return res.status(300).json({ success: false, message: "Must not be duplicated" })
 
         try {
-            const checkUserId = await User.findById(userId)
+            const checkOwnerId = await User.findById(userId)
             const checkFriendId = await User.findById(friendId)
-            if(!checkUserId || !checkFriendId)
+
+            const checkAddOwnerId = await Friends.findOne({ownerid: userId})
+            
+            if(!checkOwnerId || !checkFriendId)
                 return res.status(300).json({ success: false, message: "Account does not exist" }) 
             
-            const newFriend = await Friends({
-                ownerid: userId, 
-                friends: [{
-                    friend_id: friendId 
-                }] 
-            })
-            console.log("hello");
-            await newFriend.save()
-            .then((newFriend) => {
-                console.log(newFriend);
-                User.findByIdAndUpdate( userID, {
-                    "$push" : {
-                        "posts": newPost._id
-                    }
+            if(!checkAddOwnerId){
+                const newFriend = await Friends({
+                    ownerid: userId, 
+                    friends: [{
+                        friend_id: friendId 
+                    }] 
                 })
-                .exec((error, user) => {
-                    if(error) return res.status(300).json({ success: false, message: error })
-                    if(user){
-                        console.log("add posts successfully");
-                        return res.status(200).json({
-                            success: true, 
-                            message: 'add posts successfully', 
-                            post: newPost
-                        })
-                    }
+                await newFriend.save()
+                .then((newFriend) => {
+                    console.log(newFriend);
+                    User.findByIdAndUpdate( userId, {
+                        "$push" : {
+                            "friends": newFriend._id
+                        }
+                    })
+                    .exec((error, user) => {
+                        if(error) return res.status(300).json({ success: false, message: error })
+                        if(friend){
+                            return res.status(200).json({
+                                success: true, 
+                                message: 'add friend successfully', 
+                                friend: friend
+                            })
+                        }
+                    })
                 })
-            })
-            .catch((err) => {
-                res.status(300).json({success: false, message: err });
-            });
+                .catch((err) => {
+                    res.status(300).json({success: false, message: err });
+                });
+            }
+            const checkAddFriendId = await Friends.findOne({friends: {$elemMatch: { friend_id : friendId}} })
+            if(checkAddOwnerId) {
+                console.log(checkAddFriendId);
+                if(!checkAddFriendId){
+                    console.log("hello1");
+                    Friends.findOneAndUpdate({ownerid: userId}, {
+                        "$push" : {
+                                friends: [{
+                                    friend_id: friendId 
+
+                                }]
+                            }
+                    }).exec((error, friend) => {
+                        if(error) return res.status(300).json({ success: false, message: error })
+                        if(friend){
+                            return res.status(200).json({
+                                success: true, 
+                                message: 'add friend successfully', 
+                                friend: friend
+                            })
+                        }
+                    }) 
+                }else {
+                    return res.status(300).json({ success: false, message: "This account has been friended" }) 
+                }
+                
+            }
+            
         } catch (error) {
             
         }

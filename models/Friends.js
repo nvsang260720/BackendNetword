@@ -13,11 +13,12 @@ const FriendSchema = new Schema({
             friend_id: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'users',
-                required: true 
+                required: true,
+                unique: true
             },
             status_follow: {
                 type: Number,
-                default: 1, 
+                default: 0, 
             },
         }
     ]
