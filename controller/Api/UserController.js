@@ -45,6 +45,9 @@ class managerUser {
             res.json({ success: false, message: 'get profile fail' })
         }
     }
+    getUser = async(req, res) => {
+        
+    }
     setProfile = async(req, res) => {
         const userId = req.params.id 
         if(!userId)
@@ -144,8 +147,6 @@ class managerUser {
     addFollows = async(req, res) => {
         const userID = req.body.userId
         const ownerID= req.user.user_id
-        console.log('userid :', userID);
-        console.log('ownerid :', ownerID);
         if (!userID || !ownerID)
             return res.status(300).json({ success: false, message: "Missing id owner or user" }) 
 
@@ -154,11 +155,11 @@ class managerUser {
 
         try {
             const checkOwnerId = await User.findById(ownerID)
-            const checkUserId = await User.findById(userID)
+            // const checkUserId = await User.findById(userID)
             var listFollowing = checkOwnerId.following
 
-            if(!checkOwnerId || !checkUserId)
-                return res.status(300).json({ success: false, message: "Account does not exist" }) 
+            // if(!checkOwnerId || !checkUserId)
+            //     return res.status(300).json({ success: false, message: "Account does not exist" }) 
 
             if(listFollowing.includes(userID) == false){
                 await User.findByIdAndUpdate( ownerID, {

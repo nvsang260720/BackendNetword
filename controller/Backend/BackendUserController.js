@@ -33,29 +33,33 @@ class updateUser {
 	}
 	getProfile = async(req, res) => {
 		const userId = req.params.id
-	
 		try {
-			const ListFriend = Friends.find({ownerid:  userId }).toArray();
-
-			console.log(ListFriend);
-			
-			// await User.findById(userId).exec( (error, user) => {
-            //     if(error) return res.redirect('/admin')
-            //     if(user){
-					
-			// 		console.log(ListFriend);
-   
-			// 		Posts.find({_id: {$in : user.posts}}).exec((error, post) => {
-			// 			if(error) return res.redirect('/admin')
-			// 			if(post){
-			// 				res.render('admin/users/reviewUser', { title: 'Admin', profile: user, posts: post, friends: ListFriend });	
-			// 			}
-			// 		}) 
+			await User.findById(userId).exec( (error, user) => {
+                if(error) return res.redirect('/admin')
+                if(user){
+					var countFollowers =0
+					var countFollowing =0
+					user.followers.forEach(item => {
+						countFollowers++
+					});
+					user.following.forEach(item => {
+						countFollowers++
+					});
+					Posts.find({_id: {$in : user.posts}}).exec((error, post) => {
+						if(error) return res.redirect('/admin')
+						if(post){
+							res.render('admin/users/reviewUser', { 
+								title: 'Admin', 
+								profile: user, 
+								posts: post, 
+								following: countFollowing,
+								followers: countFollowers 
+							});	
+						}
+					}) 
                     
-            //     }
-            // }) 
-		
-			
+                }
+            }) 
 		} catch (error) {
 			res.json({ message: 'get ser fail' })
 		}
