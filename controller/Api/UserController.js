@@ -4,6 +4,22 @@ const Friends = require('../../models/Friends')
 const cloudinary =require('../../utils/cloudinary')
 
 class managerUser {
+    getAllUser = async(req, res) => {
+        try {
+            await User.find().exec((error, user) => {
+                if(error) return res.status(300).json({ success: false, message: 'get user fail' })
+                if(user){
+                    res.status(200).json({
+                        success: true,
+                        message: 'get user successfully',
+                        data: user
+                    })
+                }
+            })
+        } catch (error) {
+            return res.status(500).json({ success: false, message: 'server error' })
+        }
+    }
     getProfile =  async(req, res) => {
         const userId = req.params.id 
         if(!userId)
@@ -159,7 +175,7 @@ class managerUser {
                             "friends": newFriend._id
                         }
                     })
-                    .exec((error, user) => {
+                    .exec((error, friend) => {
                         if(error) return res.status(300).json({ success: false, message: error })
                         if(friend){
                             return res.status(200).json({

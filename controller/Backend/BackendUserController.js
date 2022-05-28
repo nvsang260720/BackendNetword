@@ -36,23 +36,25 @@ class updateUser {
 		const userId = req.params.id
 	
 		try {
-			await User.findById(userId).exec( (error, user) => {
-                if(error) return res.redirect('/admin')
-                if(user){
-					const ListFriend =  Friends.find({ownerid:  user.friends }).exec();
-                    ListFriend.map((user) => {
-						console.log(user);
-					})
+			const ListFriend = Friends.find({ownerid:  userId }).toArray();
+
+			console.log(ListFriend);
+			
+			// await User.findById(userId).exec( (error, user) => {
+            //     if(error) return res.redirect('/admin')
+            //     if(user){
 					
-					Posts.find({_id: {$in : user.posts}}).exec((error, post) => {
-						if(error) return res.redirect('/admin')
-						if(post){
-							res.render('admin/users/reviewUser', { title: 'Admin', profile: user, posts: post, friends: ListFriend });	
-						}
-					}) 
+			// 		console.log(ListFriend);
+   
+			// 		Posts.find({_id: {$in : user.posts}}).exec((error, post) => {
+			// 			if(error) return res.redirect('/admin')
+			// 			if(post){
+			// 				res.render('admin/users/reviewUser', { title: 'Admin', profile: user, posts: post, friends: ListFriend });	
+			// 			}
+			// 		}) 
                     
-                }
-            }) 
+            //     }
+            // }) 
 		
 			
 		} catch (error) {

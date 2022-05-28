@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const AuthController = require('../../controller/Backend/AuthController')
-const UserController = require('../../controller/Backend/UserController')
+const UserController = require('../../controller/Backend/BackendUserController')
 const PostController = require('../../controller/Backend/PostController')
 
 router.get('/', UserController.getHome)
