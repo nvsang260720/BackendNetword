@@ -20,8 +20,9 @@ router.get('/get-post/', PostController.getPost)
 
 router.put('/like-post/:id', PostController.likePost)
 
-router.post('/add-friend/', UserController.addFriend)
+router.post('/follow/', UserController.addFollows)
 
+router.post('/un-follow/', UserController.deleteFollow)
 
 
 module.exports = router;

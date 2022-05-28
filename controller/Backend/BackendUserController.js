@@ -1,6 +1,5 @@
 const User = require('../../models/User')
 const Posts = require('../../models/Posts')
-const Friends = require('../../models/Friends')
 
 class updateUser {
 	getUser = async(req, res) => {

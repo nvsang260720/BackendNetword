@@ -1,6 +1,5 @@
 
 const User = require('../../models/User')
-const Friends = require('../../models/Friends')
 const cloudinary =require('../../utils/cloudinary')
 
 class managerUser {
@@ -142,84 +141,104 @@ class managerUser {
             res.status(500).json({success: false,message: 'error server',})
         }
     }
-    addFriend = async(req, res) => {
-        const friendId = req.body.idFriend
-        const userId = req.user.user_id
-        if (!friendId || !userId)
-            return res.status(300).json({ success: false, message: "Missing id user or friends" }) 
+    addFollows = async(req, res) => {
+        const userID = req.body.userId
+        const ownerID= req.user.user_id
+        console.log('userid :', userID);
+        console.log('ownerid :', ownerID);
+        if (!userID || !ownerID)
+            return res.status(300).json({ success: false, message: "Missing id owner or user" }) 
 
-        if(friendId === userId)
+        if(ownerID === userID)
             return res.status(300).json({ success: false, message: "Must not be duplicated" })
 
         try {
-            const checkOwnerId = await User.findById(userId)
-            const checkFriendId = await User.findById(friendId)
+            const checkOwnerId = await User.findById(ownerID)
+            const checkUserId = await User.findById(userID)
+            var listFollowing = checkOwnerId.following
 
-            const checkAddOwnerId = await Friends.findOne({ownerid: userId})
-            
-            if(!checkOwnerId || !checkFriendId)
+            if(!checkOwnerId || !checkUserId)
                 return res.status(300).json({ success: false, message: "Account does not exist" }) 
-            
-            if(!checkAddOwnerId){
-                const newFriend = await Friends({
-                    ownerid: userId, 
-                    friends: [{
-                        friend_id: friendId 
-                    }] 
-                })
-                await newFriend.save()
-                .then((newFriend) => {
-                    console.log(newFriend);
-                    User.findByIdAndUpdate( userId, {
-                        "$push" : {
-                            "friends": newFriend._id
-                        }
-                    })
-                    .exec((error, friend) => {
-                        if(error) return res.status(300).json({ success: false, message: error })
-                        if(friend){
-                            return res.status(200).json({
-                                success: true, 
-                                message: 'add friend successfully', 
-                                friend: friend
-                            })
-                        }
-                    })
-                })
-                .catch((err) => {
-                    res.status(300).json({success: false, message: err });
-                });
-            }
-            const checkAddFriendId = await Friends.findOne({friends: {$elemMatch: { friend_id : friendId}} })
-            if(checkAddOwnerId) {
-                console.log(checkAddFriendId);
-                if(!checkAddFriendId){
-                    console.log("hello1");
-                    Friends.findOneAndUpdate({ownerid: userId}, {
-                        "$push" : {
-                                friends: [{
-                                    friend_id: friendId 
 
-                                }]
+            if(listFollowing.includes(userID) == false){
+                await User.findByIdAndUpdate( ownerID, {
+                    "$push" : {
+                        "following": userID
+                    }
+                }).exec((error, data) => {
+                    if(error) return res.status(300).json({ success: false, message: error })
+                    if(data){
+                        User.findByIdAndUpdate(userID, {
+                            "$push" : {
+                                "followers": data._id
                             }
-                    }).exec((error, friend) => {
-                        if(error) return res.status(300).json({ success: false, message: error })
-                        if(friend){
-                            return res.status(200).json({
-                                success: true, 
-                                message: 'add friend successfully', 
-                                friend: friend
-                            })
-                        }
-                    }) 
-                }else {
-                    return res.status(300).json({ success: false, message: "This account has been friended" }) 
-                }
-                
+                        }).exec((error, data) => {
+                            if(error) return res.status(300).json({ success: false, message: error })
+                            if(data){
+                                res.status(200).json({
+                                    success: true, 
+                                    message: 'following user successfully', 
+                                })
+                            }
+                        })
+                    }
+                })
+            }else{
+                return res.status(300).json({ success: false, message: "Following this user already exists" }) 
             }
-            
+                
         } catch (error) {
-            
+             return res.status(500).json({ success: false, message: "error server" }) 
+        }
+    }
+    deleteFollow = async(req, res) => {
+        const userID = req.body.userId
+        const ownerID= req.user.user_id
+        console.log('userid :', userID);
+        console.log('ownerid :', ownerID);
+        if (!userID || !ownerID)
+            return res.status(300).json({ success: false, message: "Missing id owner or user" }) 
+
+        if(ownerID === userID)
+            return res.status(300).json({ success: false, message: "Must not be duplicated" })
+
+        try {
+            const checkOwnerId = await User.findById(ownerID)
+            const checkUserId = await User.findById(userID)
+            var listFollowing = checkOwnerId.following
+
+            if(!checkOwnerId || !checkUserId)
+                return res.status(300).json({ success: false, message: "Account does not exist" }) 
+
+            if(listFollowing.includes(userID) == true){
+                await User.findByIdAndUpdate( ownerID, {
+                    '$pull': {
+                        'following': userID
+                    }
+                }).exec((error, data) => {
+                    if(error) return res.status(300).json({ success: false, message: error })
+                    if(data){
+                        User.findByIdAndUpdate(userID, {
+                            "$pull" : {
+                                "followers": data._id
+                            }
+                        }).exec((error, data) => {
+                            if(error) return res.status(300).json({ success: false, message: error })
+                            if(data){
+                                res.status(200).json({
+                                    success: true, 
+                                    message: 'Un Follow user successfully', 
+                                })
+                            }
+                        })
+                    }
+                })
+            }else{
+                return res.status(300).json({ success: false, message: "Following this user already exists" }) 
+            }
+                
+        } catch (error) {
+             return res.status(500).json({ success: false, message: "error server" }) 
         }
     }
     

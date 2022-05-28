@@ -47,10 +47,14 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "posts"
     }],
-    friends: {
+    followers: [{
         type: Schema.Types.ObjectId,
-        ref: "friends" 
-    },
+        
+    }],
+    following: [{
+        type: Schema.Types.ObjectId,
+        
+    }],
     createdAt: {
         type: Date,
         default: Date.now
