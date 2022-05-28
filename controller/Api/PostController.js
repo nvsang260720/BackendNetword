@@ -192,7 +192,38 @@ class PostUser {
         }
     }
     deletePosts = async(req, res) => {
-        const postId = req.body
+        const postId = req.body.postID
+        const userId = req.user.user_id 
+        if(!postId)
+            return res.status(303).json({ success: false, message: "Missing id Post" })
+
+        try {
+            const checkPost = await Posts.findById(postId)
+            if(!checkPost)
+                return res.status(300).json({ success: false, message: 'Post not found' })
+
+            await Posts.findByIdAndDelete(postId).exec((error, post) => {
+                if(error) return res.status(300).json({ success: false, message: error })
+                if(post){
+                    User.findByIdAndUpdate(userId, {
+                        "$pull" : {
+                            "posts": post._id
+                        }
+                    }).exec((error, user) => {
+                        if(error) return res.status(300).json({ success: false, message: error })
+                        if(user){
+                            return res.status(200).json({
+                                success: true, 
+                                message: 'Delete post successfully'
+                            })
+                        }
+                    })
+                    
+                }
+            })
+        } catch (error) {
+            return res.status(500).json({ success: false, message: "error server" })
+        }
     }
 }
 
