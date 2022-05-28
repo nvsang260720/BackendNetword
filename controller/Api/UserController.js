@@ -242,7 +242,8 @@ class managerUser {
         }
     }
     getAllImage = async(req, res) => {
-        const userId = req.user.user_id
+        const tokenId = req.user.user_id
+        const userId = req.body.userId 
         var listUrl = []
         try {
             await cloudinary.search.expression(
