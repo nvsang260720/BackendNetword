@@ -12,7 +12,7 @@ class updateUser {
 
 	}
 	getHome = (req, res) => {
-		res.render('home', { title: 'Admin'});
+		res.render('admin/home', { title: 'Admin hello'});
 	}
 	deleteUser = async(req, res) => {
 		const userId = req.params.id 

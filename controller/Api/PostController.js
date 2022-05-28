@@ -19,7 +19,8 @@ class PostUser {
 
             for (let file of req.files) {
                 await cloudinary.uploader.upload(file.path, {
-                    upload_preset: 'upload_avata'
+                    upload_preset: 'upload_avata',
+                    folder: userID
                 }).then(result => {
                     listUrl.push(result.url);
                 })

@@ -26,5 +26,7 @@ router.post('/follow/', UserController.addFollows)
 
 router.post('/un-follow/', UserController.deleteFollow)
 
+router.get('/all-images/', UserController.getAllImage)
+
 
 module.exports = router;

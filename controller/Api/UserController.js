@@ -85,7 +85,6 @@ class managerUser {
     uploadAvatar = async(req, res) => {
         const userId = req.user.user_id
         const pathAvatar = req.file
-        console.log(userId)
 
         if(!userId || !pathAvatar)
             return res.status(300).json({ success: false, message: "missing id user or file" }) 
@@ -94,9 +93,12 @@ class managerUser {
             if(!checkUser)
                 return res.status(300).json({ success: false, message: "Account does not exist" }) 
 
-            const result = await cloudinary.uploader.upload(pathAvatar.path, {
-                upload_preset: 'upload_avata'
-            })
+            const result = await cloudinary.uploader.upload(pathAvatar.path, 
+                {
+                    upload_preset: 'upload_avata',
+                    folder: userId
+                },
+            )
             console.log(result);
             await User.findByIdAndUpdate(userId, { avatar: result.url })
             .exec((error, user) => {
@@ -114,21 +116,22 @@ class managerUser {
         }
     }
     uploadCover = async(req, res) => {
-        const idUser = req.user.user_id
+        const userId = req.user.user_id
         const pathCover = req.file
 
-        if(!idUser || !pathCover)
+        if(!userId || !pathCover)
             return res.status(300).json({ success: false, message: "missing id user or cover" }) 
         try {
-            const checkUser = await User.findById(idUser)
+            const checkUser = await User.findById(userId)
             if(!checkUser)
                 return res.status(300).json({ success: false, message: "Account does not exist" }) 
 
             const result = await cloudinary.uploader.upload(req.file.path, {
-                upload_preset: 'upload_avata'
+                upload_preset: 'upload_avata',
+                folder: userId
             })
     
-            await User.findByIdAndUpdate(idUser ,{cover: result.url})
+            await User.findByIdAndUpdate(userId ,{cover: result.url})
             .exec((error, user) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(user){
@@ -237,6 +240,33 @@ class managerUser {
         } catch (error) {
              return res.status(500).json({ success: false, message: "error server" }) 
         }
+    }
+    getAllImage = async(req, res) => {
+        const userId = req.user.user_id
+        var listUrl = []
+        try {
+            await cloudinary.search.expression(
+                userId
+            ).sort_by('public_id','desc')
+            .max_results(30)
+            .execute()
+            .then((result) => {
+                for (let res of result.resources) {
+                    listUrl.push(res.url)
+                }
+                return res.status(200).json({
+                    success: true, 
+                    message: 'Get all images for user successfully',
+                    urls: listUrl 
+                })
+            })
+        } catch (error) {
+            return res.status(500).json({
+                success: false, 
+                message: 'server error',
+            })
+        }
+        
     }
     
 
