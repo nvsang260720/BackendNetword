@@ -155,11 +155,7 @@ class managerUser {
 
         try {
             const checkOwnerId = await User.findById(ownerID)
-            // const checkUserId = await User.findById(userID)
             var listFollowing = checkOwnerId.following
-
-            // if(!checkOwnerId || !checkUserId)
-            //     return res.status(300).json({ success: false, message: "Account does not exist" }) 
 
             if(listFollowing.includes(userID) == false){
                 await User.findByIdAndUpdate( ownerID, {

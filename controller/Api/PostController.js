@@ -191,6 +191,9 @@ class PostUser {
             }) 
         }
     }
+    deletePosts = async(req, res) => {
+        const postId = req.body
+    }
 }
 
 module.exports = new PostUser()
