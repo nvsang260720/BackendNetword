@@ -245,27 +245,28 @@ class managerUser {
         const tokenId = req.user.user_id
         const userId = req.body.userId 
         var listUrl = []
+        console.log('hello', userId);
         try {
+            console.log("hello for");
             await cloudinary.search.expression(
                 userId
             ).sort_by('public_id','desc')
-            .max_results(30)
             .execute()
             .then((result) => {
                 for (let res of result.resources) {
                     listUrl.push(res.url)
+                    console.log("hello for");
                 }
                 return res.status(200).json({
                     success: true, 
                     message: 'Get all images for user successfully',
                     urls: listUrl 
                 })
+            }).catch(err =>{
+                return res.status(300).json({ success: false, message: err})
             })
         } catch (error) {
-            return res.status(500).json({
-                success: false, 
-                message: 'server error',
-            })
+            return res.status(500).json({ success: false, message: 'server error'})
         }
         
     }

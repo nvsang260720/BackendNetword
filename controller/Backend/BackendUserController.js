@@ -36,16 +36,21 @@ class updateUser {
 		const userId = req.params.id
 		try {
 			var listUrl = [];
+			var checkCloud =0;
 			await cloudinary.search.expression(
-						userId
-					).sort_by('public_id','desc')
-					.max_results(30)
-					.execute()
-					.then((result) => {
-						for (let res of result.resources) {
-							listUrl.push(res.url)
-						}
-					});
+					userId
+				).sort_by('public_id','desc')
+				.max_results(30)
+				.execute()
+				.then((result) => {
+					for (let res of result.resources) {
+						listUrl.push(res.url)
+					}
+				}).catch(err =>{
+					checkCloud++
+					
+				})
+			console.log(checkCloud);
 			await User.findById(userId).exec( (error, user) => {
                 if(error) return res.redirect('/admin')
                 if(user){
@@ -57,11 +62,18 @@ class updateUser {
 					user.following.forEach(item => {
 						countFollowers++
 					});
-		
-					console.log(listUrl);
 					Posts.find({_id: {$in : user.posts}}).exec((error, post) => {
 						if(error) return res.redirect('/admin')
-						if(post){
+						if(post && checkCloud ===1 ){
+							res.render('admin/users/reviewUser', { 
+								title: 'Admin', 
+								profile: user, 
+								posts: post, 
+								following: countFollowing,
+								followers: countFollowers,
+								urls: '0' 
+							});	
+						}if(post && checkCloud ===0 ){
 							res.render('admin/users/reviewUser', { 
 								title: 'Admin', 
 								profile: user, 
