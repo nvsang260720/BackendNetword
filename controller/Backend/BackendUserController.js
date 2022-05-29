@@ -1,5 +1,6 @@
 const User = require('../../models/User')
 const Posts = require('../../models/Posts')
+const cloudinary =require('../../utils/cloudinary')
 
 class updateUser {
 	getUser = async(req, res) => {
@@ -34,17 +35,30 @@ class updateUser {
 	getProfile = async(req, res) => {
 		const userId = req.params.id
 		try {
+			var listUrl = [];
+			await cloudinary.search.expression(
+						userId
+					).sort_by('public_id','desc')
+					.max_results(30)
+					.execute()
+					.then((result) => {
+						for (let res of result.resources) {
+							listUrl.push(res.url)
+						}
+					});
 			await User.findById(userId).exec( (error, user) => {
                 if(error) return res.redirect('/admin')
                 if(user){
-					var countFollowers =0
-					var countFollowing =0
+					var countFollowers =0;
+					var countFollowing =0;
 					user.followers.forEach(item => {
 						countFollowers++
 					});
 					user.following.forEach(item => {
 						countFollowers++
 					});
+		
+					console.log(listUrl);
 					Posts.find({_id: {$in : user.posts}}).exec((error, post) => {
 						if(error) return res.redirect('/admin')
 						if(post){
@@ -53,7 +67,8 @@ class updateUser {
 								profile: user, 
 								posts: post, 
 								following: countFollowing,
-								followers: countFollowers 
+								followers: countFollowers,
+								urls: listUrl 
 							});	
 						}
 					}) 

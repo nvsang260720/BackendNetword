@@ -13,6 +13,7 @@ router.get('/update-user/:id', UserController.getUpdateUser)
 
 router.post('/delete-user/:id',UserController.deleteUser)
 
+
 // router.patch('/upload-avatar/:id' ,uploads.single('uploaded_avata'), UserController.postUpdateUser)
 
 // router.patch('/upload-cover/:id' ,uploads.single('uploaded_cover'), UserController.postUpdateUser)
