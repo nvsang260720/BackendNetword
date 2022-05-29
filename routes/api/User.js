@@ -22,6 +22,10 @@ router.get('/get-post/', PostController.getPost)
 
 router.put('/like-post/:id', PostController.likePost)
 
+router.post('/comment-post/:id', PostController.addComment)
+
+router.get('/comment-post/:id', PostController.getComment)
+
 router.post('/follow/', UserController.addFollows)
 
 router.post('/un-follow/', UserController.deleteFollow)

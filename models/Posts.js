@@ -29,6 +29,16 @@ const PostSchema = new Schema({
     images: {
         type: Array,
     },
+    list_comment: [{ 
+      commentid: {
+        type: Schema.Types.ObjectId, 
+        ref: "comments"
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now
+      } 
+    }],
     createdAt: {
         type: Date,
         default: Date.now
