@@ -3,6 +3,7 @@ const router = express.Router();
 const AuthController = require('../../controller/Backend/AuthBackend')
 const UserController = require('../../controller/Backend/UserBackend')
 const PostController = require('../../controller/Backend/PostBackend')
+const CommentController = require('../../controller/Backend/CommentBackend')
 
 router.get('/', UserController.getHome)
 
@@ -12,7 +13,7 @@ router.post('/login', AuthController.postLogin)
 
 router.get('/all-post', PostController.allPost)
 
-router.get('/all-comment', PostController.allPost)
+router.get('/all-comment', CommentController.allComment)
 
 
 
