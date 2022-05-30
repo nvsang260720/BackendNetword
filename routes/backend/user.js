@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const UserController = require('../../controller/Backend/BackendUserController')
-const PostController = require('../../controller/Backend/PostController')
+const UserController = require('../../controller/Backend/UserBackend')
+const PostController = require('../../controller/Backend/PostBackend')
 
 const uploads = require('../../middleware/uploadImages')
 

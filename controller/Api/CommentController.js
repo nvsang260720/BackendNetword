@@ -76,8 +76,6 @@ class ManagerComments {
         } catch (error) {
             return res.status(500).json({ success: false, message: err})
         }
-        
-
     }
     deleteComment = async(req, res) => {
         const postId = req.params.id;
@@ -88,9 +86,33 @@ class ManagerComments {
         if(!commentID || !postId)
             return res.status(300).json({ success: false, message: "Can't find comment id and post id" })
         try {
+            const checkPost =await Posts.findById(postId);
+            if(!checkPost)
+                return res.status(300).json({ success: false, message: "This post could not be found" })
             
+            await Comments.findByIdAndDelete(commentID).exec((error, comments) => {
+                if(error) return res.status(300).json({ success: false, message: error })
+                if(comments){
+                    console.log("Delete comment successfully");
+                    Posts.findByIdAndUpdate(postId, {
+                        "$pull" : {
+                            "list_comment": {
+                                "commentid" : comments._id
+                            }
+                        }
+                    }).exec((error, posts) => {
+                        if(error) return res.status(300).json({ success: false, message: error })
+                        if(posts){
+                            return res.status(200).json({
+                                success: true, 
+                                message: 'Delete comment successfully',
+                            })
+                        }
+                    })
+                }
+            }) 
         } catch (error) {
-            
+            return res.status(500).json({ success: false, message: err})
         }
     }
 }

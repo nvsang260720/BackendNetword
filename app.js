@@ -13,6 +13,8 @@ const verifyToken = require('./middleware/auth')
 //router backend
 const userRouter = require('./routes/backend/user')
 const adminRouter = require('./routes/backend/admin');
+
+//router frontend
 const homeRouter = require('./routes/frontend/home')
 
 //api 
