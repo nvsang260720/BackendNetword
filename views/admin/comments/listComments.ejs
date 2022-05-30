@@ -36,7 +36,7 @@
                                 <%= comments[i].message %>
                             </td>
                             <td class="bt">
-                                <form action="/admin/user/post/<%= comments[i]._id %>" method="POST">
+                                <form action="/admin/comment/<%= comments[i]._id %>?_method=DELETE" method="POST">
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>

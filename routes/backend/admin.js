@@ -15,6 +15,8 @@ router.get('/all-post', PostController.allPost)
 
 router.get('/all-comment', CommentController.allComment)
 
+router.delete('/comment/:id', CommentController.deleteComment)
+
 
 
 module.exports = router;

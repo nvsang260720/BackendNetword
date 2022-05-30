@@ -1,10 +1,11 @@
 require('dotenv').config()
-const createError = require('http-errors');
+var createError = require('http-errors');
 var express = require ('express');
-const path = require('path');
-const expressLayouts = require('express-ejs-layouts')
-const logger = require('morgan');
+var path = require('path');
+var expressLayouts = require('express-ejs-layouts')
+var logger = require('morgan');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override')
 var multer = require('multer');
 var upload = multer();
 
@@ -22,7 +23,6 @@ const API = require('./routes/api/API');
 const ApiAuth = require('./routes/api/Auth');
 const ApiUser = require('./routes/api/User');
 const connectDB = require('./utils/connectDB')
-
 connectDB()
 
 const app = express();
@@ -36,10 +36,11 @@ app.use(logger('dev'));
 // for parsing application/json
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
+// override with the X-HTTP-Method-Override header in the request
+app.use(methodOverride('_method'))
 
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/css', express.static(__dirname + 'public/css'));
 app.use('/js', express.static(__dirname + 'public/js'));
 app.use('/img', express.static(__dirname + 'public/img'));
