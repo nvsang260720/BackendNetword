@@ -67,7 +67,6 @@ class PostUser {
             .exec((error, posts) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(posts){
-                    console.log(posts);
                     return res.status(200).json({
                         success: true, 
                         message: 'get post successfully', 
@@ -100,7 +99,6 @@ class PostUser {
             .exec((error, post) => {
                 if(error) return res.status(300).json({ success: false, message: error })
                 if(post){
-                    console.log(post);
                     return res.status(200).json({
                         success: true, 
                         message: 'get post successfully', 
@@ -120,8 +118,6 @@ class PostUser {
         const postId = req.params.id
         const userId = req.user.user_id 
         const {statusLike} = req.body
-        console.log("Status like: " + statusLike);
-        console.log("User id: " + userId)
         if(!postId)
             return res.status(300).json({ success: false, message: "Missing id Post" })
         try {

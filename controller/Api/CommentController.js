@@ -87,7 +87,11 @@ class ManagerComments {
         console.log('hello delete', commentID);
         if(!commentID || !postId)
             return res.status(300).json({ success: false, message: "Can't find comment id and post id" })
-        
+        try {
+            
+        } catch (error) {
+            
+        }
     }
 }
 module.exports = new ManagerComments

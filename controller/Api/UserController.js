@@ -99,7 +99,6 @@ class managerUser {
                     folder: userId
                 },
             )
-            console.log(result);
             await User.findByIdAndUpdate(userId, { avatar: result.url })
             .exec((error, user) => {
                 if(error) return res.status(300).json({ success: false, message: error })
@@ -193,8 +192,6 @@ class managerUser {
     deleteFollow = async(req, res) => {
         const userID = req.body.userId
         const ownerID= req.user.user_id
-        console.log('userid :', userID);
-        console.log('ownerid :', ownerID);
         if (!userID || !ownerID)
             return res.status(300).json({ success: false, message: "Missing id owner or user" }) 
 
@@ -244,7 +241,6 @@ class managerUser {
         const tokenId = req.user.user_id
         const userId = req.params.id
         var listUrl = []
-        console.log('hello', userId);
         try {
             console.log("hello for");
             await cloudinary.search.expression(
