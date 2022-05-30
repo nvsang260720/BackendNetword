@@ -5,7 +5,7 @@ const uploads = require('../../middleware/uploadImages')
 const cloudinary = require('../../utils/cloudinary')
 
 class ManagerComments {
-        addComment = async(req, res) => {
+    addComment = async(req, res) => {
 
         const postId = req.params.id;
         const message = req.body.message

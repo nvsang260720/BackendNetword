@@ -19,8 +19,6 @@ const homeRouter = require('./routes/frontend/home')
 const API = require('./routes/api/API');
 const ApiAuth = require('./routes/api/Auth');
 const ApiUser = require('./routes/api/User');
-const ApiProduct = require('./routes/api/Product')
-const ApiCategory = require('./routes/api/Category')
 const connectDB = require('./utils/connectDB')
 
 connectDB()
@@ -35,10 +33,8 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 // for parsing application/json
 app.use(bodyParser.json()); 
-
-// for parsing application/xwww-
 app.use(bodyParser.urlencoded({ extended: true })); 
-//form-urlencoded
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -56,8 +52,6 @@ app.use('/admin/user', userRouter);
 //api ApiCategory
 app.use('/api', API);
 app.use('/api/auth', ApiAuth);
-app.use('/api/category', ApiCategory);
-app.use('/api/product', ApiProduct);
 app.use('/api/user',verifyToken, ApiUser);
 
 // catch 404 and forward to error handler
