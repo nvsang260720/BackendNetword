@@ -130,7 +130,6 @@ class managerUser {
                 upload_preset: 'upload_avata',
                 folder: userId
             })
-    
             await User.findByIdAndUpdate(userId ,{cover: result.url})
             .exec((error, user) => {
                 if(error) return res.status(300).json({ success: false, message: error })
@@ -269,6 +268,9 @@ class managerUser {
             return res.status(500).json({ success: false, message: 'server error'})
         }
         
+    }
+    changePassword = async( req, res) => {
+
     }
     
 

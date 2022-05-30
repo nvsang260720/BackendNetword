@@ -4,6 +4,7 @@ const router = express.Router();
 const UserController = require('../../controller/Api/UserController')
 const PostController = require('../../controller/Api/PostController')
 const uploads = require('../../middleware/uploadImages')
+const CommentController = require('../../controller/Api/CommentController')
 const cloudinary = require('../../utils/cloudinary')
 
 router.get('/profile/:id', UserController.getProfile)
@@ -22,9 +23,11 @@ router.get('/get-post/', PostController.getPost)
 
 router.put('/like-post/:id', PostController.likePost)
 
-router.post('/comment-post/:id', PostController.addComment)
+router.post('/comment-post/:id', CommentController.addComment)
 
-router.get('/comment-post/:id', PostController.getComment)
+router.get('/comment-post/:id', CommentController.getComment)
+
+router.delete('/comment-post/:id', CommentController.deleteComment)
 
 router.post('/follow/', UserController.addFollows)
 
@@ -32,5 +35,6 @@ router.post('/un-follow/', UserController.deleteFollow)
 
 router.get('/all-images/:id', UserController.getAllImage)
 
+router.post('/change-password', UserController.changePassword)
 
 module.exports = router;
