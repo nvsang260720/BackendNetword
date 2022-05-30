@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose')
-const url = 'mongodb+srv://sang123:sang123@app-food.iebfa.mongodb.net/app-food?retryWrites=true&w=majority'
+const url = 'mongodb+srv://sang123:sang123@app-food.iebfa.mongodb.net/app-social-network?retryWrites=true&w=majority'
 const  connectDB = async () => {
   try {
     await mongoose.connect(url, 
