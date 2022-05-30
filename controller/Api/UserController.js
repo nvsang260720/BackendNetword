@@ -243,7 +243,7 @@ class managerUser {
     }
     getAllImage = async(req, res) => {
         const tokenId = req.user.user_id
-        const userId = req.body.userId 
+        const userId = req.params.id
         var listUrl = []
         console.log('hello', userId);
         try {
