@@ -266,6 +266,7 @@ class managerUser {
         
     }
     changePassword = async( req, res) => {
+        console.log('hello');
 
     }
     

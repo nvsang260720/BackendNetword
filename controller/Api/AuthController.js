@@ -1,20 +1,17 @@
-const argan2 = require('argon2')
+const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken')
-
 const User = require('../../models/User')
 
 
 const logout = (req, res) => {
     try {
         if (req.cookies.access_token)
-        // console.log(`${}`)  
             return res
             .clearCookie("access_token")
             .status(200)
             .json({ success: true, message: 'Logout Successful' });
     } catch (error) {
-        return res
-            .json({ success: false, message: 'Error Server' });
+        return res.status(500).json({ success: false, message: 'Error Server' });
     }
 
 }
@@ -22,18 +19,18 @@ const login = async(req, res) => {
     const { email, password } = req.body
 
     if (!email || !password)
-        return res.json({ success: false, message: 'missing email or password' })
+        return res.status(303).json({ success: false, message: 'Missing email or password' })
     try {
         const user = await User.findOne({ email })
         if (!user)
-            return res.json({ success: false, message: 'Email or password already exists' })
-        const passwordValid = await argan2.verify(user.password, password)
+            return res.status(300).json({ success: false, message: 'Email already exists' })
+        const passwordValid = await bcrypt.compare( password ,user.password)
         if (!passwordValid)
-            return res.json({ success: false, message: 'Email or password already exists' })
+            return res.status(300).json({ success: false, message: 'Password already exists' })
 
         const accessToken = jwt.sign({ user_id: user._id }, process.env.ACCESS_TOKEN)
 
-        res.json({
+        res.status(200).json({
                 success: true,
                 message: 'login successfully',
                 token: accessToken,
@@ -41,42 +38,35 @@ const login = async(req, res) => {
             })
 
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: 'server error' })
+        return res.status(500).json({ success: false, message: 'server error' })
     }
 }
 
 const register = async(req, res) => {
 
     const { username, email, password } = req.body
-    console.log(req.body)
-
     if (!email || !password)
-        return res
-            .json({ success: false, message: 'missing email or password' })
+        return res.status(303).json({ success: false, message: 'Missing email or password' })
     try {
-        // check for user
         const user = await User.findOne({ email })
         if (user)
-            return res
-                .json({ success: false, message: 'Email already exists' })
-        const hashedPassword = await argan2.hash(password)
-        const newUser = new User({ username, email, password: hashedPassword })
+            return res.status(300).json({ success: false, message: 'Email already exists' })
+
+        const salt = await bcrypt.genSalt(10);
+        const hasPassword = await bcrypt.hash(password, salt);
+        const newUser = new User({ username, email, password: hasPassword })
         await newUser.save()
 
         const accessToken = jwt.sign({ user_id: newUser._id }, process.env.ACCESS_TOKEN)
-        res
-            .cookie('access_token', accessToken, { maxAge: 900000, httpOnly: true })
-            .json({
+        res.cookie('access_token', accessToken, { maxAge: 900000, httpOnly: true })
+            .status(200).json({
                 success: true,
-                message: 'created successfully',
+                message: 'Created successfully',
                 token: accessToken,
                 data: newUser
             })
     } catch (error) {
-        console.log(error)
-        res
-            .json({ success: false, message: 'server error' })
+        return res.status(500).json({ success: false, message: 'Server error' })
     }
 }
 module.exports = {
