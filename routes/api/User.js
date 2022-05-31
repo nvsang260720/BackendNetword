@@ -35,6 +35,5 @@ router.post('/un-follow/', UserController.deleteFollow)
 
 router.get('/all-images/:id', UserController.getAllImage)
 
-router.post('/change-password', UserController.changePassword)
 
 module.exports = router;

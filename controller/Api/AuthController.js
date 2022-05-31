@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
 
-
 class AuthController {
     logout = (req, res) => {
         try {
@@ -68,6 +67,40 @@ class AuthController {
                 })
         } catch (error) {
             return res.status(500).json({ success: false, message: 'Server error' })
+        }
+    }
+    changePassword = async( req, res )=> {
+        const userId = req.user.user_id
+        const {oldPassword, newPassword} = req.body
+        if (!oldPassword || !newPassword)
+            return res.status(303).json({ success: false, message: 'Missing old password or new password' })
+        try {
+            const user = await User.findById(userId)
+            if(!user)
+                return res.status(300).json({ success: false, message: 'This account not found'})
+            
+            const passwordValid = await bcrypt.compare(oldPassword ,user.password)
+            if (!passwordValid)
+                return res.status(300).json({ success: false, message: 'Password already exists' })
+            
+            const salt = await bcrypt.genSalt(10);
+            const hasPassword = await bcrypt.hash(newPassword, salt);
+            await User.findByIdAndUpdate(userId, {
+                "$set" : {
+                        "password": hasPassword
+                    }
+            }).exec((error, data) => {
+                if(error) return res.status(300).json({ success: false, message: error })
+                if(data){
+                    res.status(200).json({
+                        success: true, 
+                        message: 'Change password successfully', 
+                        user: data
+                    })
+                }
+            })
+        } catch (error) {
+            
         }
     }
 }
