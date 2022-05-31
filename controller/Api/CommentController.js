@@ -115,5 +115,76 @@ class ManagerComments {
             return res.status(500).json({ success: false, message: err})
         }
     }
+    addRepComment = async(req, res) => {
+        const commentID = req.params.id;
+        const userID = req.user.user_id;
+        const message = req.body.message;
+ 
+        if(!message)
+            return res.status(300).json({ success: false, message: "Missing message" })
+
+        try {
+            const comment =await Comments.findById(commentID);
+            const checkUser = await User.findById(userID);
+            if(!checkUser)
+                return res.status(300).json({ success: false, message: "This account does not exist" })
+            if(!comment)
+                return res.status(300).json({ success: false, message: "This comment could not be found" })
+
+            await Comments.findByIdAndUpdate(commentID, {
+                "$push" : {
+                    "rep_comment": {
+                        "userid" : userID,
+                        "message": message
+                    }
+                }
+            }).exec((error, comment) => {
+                if(error) return res.status(300).json({ success: false, message: error })
+                if(comment){
+                    return res.status(200).json({
+                        success: true, 
+                        message: 'Add rep comment successfully',
+                        comment: comment
+                    })
+                }
+            })
+        } catch (error) {
+            return res.status(500).json({ success: false, message: "server error" })
+        }
+    }
+    deleteRepComment = async(req,res) => {
+        const repCommentID = req.params.id;
+        const userID = req.user.user_id;
+        const commentID = req.body.commentID;
+        if(!commentID)
+            return res.status(300).json({ success: false, message: "Missing id comment" })
+
+        try {
+            const comment =await Comments.findById(commentID);
+            const checkUser = await User.findById(userID);
+            if(!checkUser)
+                return res.status(300).json({ success: false, message: "This account does not exist" })
+            if(!comment)
+                return res.status(300).json({ success: false, message: "This comment could not be found" })
+
+            await Comments.findByIdAndUpdate(commentID, {
+                "$pull" : {
+                    "rep_comment": {
+                        "_id" : repCommentID
+                    }
+                }
+            }).exec((error, comment) => {
+                if(error) return res.status(300).json({ success: false, message: error })
+                if(comment){
+                    return res.status(200).json({
+                        success: true, 
+                        message: 'Delete rep comment successfully'
+                    })
+                }
+            })
+        } catch (error) {
+            return res.status(500).json({ success: false, message: "server error" })
+        }
+    }
 }
 module.exports = new ManagerComments

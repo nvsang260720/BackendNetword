@@ -17,6 +17,21 @@ const commentSchema = new Schema({
         type: String,
         required: true,
     },
+    rep_comment: [{
+        userid: {
+            type: Schema.Types.ObjectId, 
+            ref: "users",
+            required: true
+        },
+        message: {
+            type: String,
+            required: true
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    }],
     createdAt: {
         type: Date,
         default: Date.now
