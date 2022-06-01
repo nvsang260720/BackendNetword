@@ -84,7 +84,6 @@ class ManagerComments {
         const userID = req.user.user_id;
         const commentID = req.body.commentID
 
-        console.log('hello delete', commentID);
         if(!commentID || !postId)
             return res.status(300).json({ success: false, message: "Can't find comment id and post id" })
         try {
@@ -120,7 +119,29 @@ class ManagerComments {
     getRepComment = async(req, res) => {
         const commentID = req.params.id;
         const userID = req.user.user_id;
-        console.log('hello');
+        if(!commentID)
+            return res.status(300).json({ success: false, message: "Can't find comment id" })
+        
+        try {
+            const checkComment =await Comments.findById(commentID);
+            if(!checkComment)
+                return res.status(300).json({ success: false, message: "This comment could not be found" })
+            await RepComments.find({commentid: commentID}).populate({
+                path: 'userid',
+                select: ['_id','username', 'avatar']
+            }).exec((error, repcomment) => {
+                if(error) return res.status(300).json({ success: false, message: error })
+                if(repcomment){
+                    return res.status(200).json({
+                        success: true, 
+                        message: 'Get rep comment successfully',
+                        repcomment: repcomment
+                    })
+                }
+            })
+        } catch (error) {
+            
+        }
     
     }
     addRepComment = async(req, res) => {
