@@ -36,6 +36,8 @@ router.post('/rep-comment/:id', CommentController.addRepComment)
 
 router.post('/rep-comment/delete/:id', CommentController.deleteRepComment)
 
+router.get('/rep-comment/:id', CommentController.getRepComment)
+
 //follow user
 router.post('/follow/', UserController.addFollows)
 

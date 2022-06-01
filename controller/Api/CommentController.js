@@ -2,6 +2,7 @@ const Posts = require('../../models/Posts')
 const Comments = require('../../models/Comments')
 const User = require('../../models/User')
 const uploads = require('../../middleware/uploadImages')
+const RepComments = require('../../models/RepComment')
 const cloudinary = require('../../utils/cloudinary')
 
 class ManagerComments {
@@ -37,7 +38,8 @@ class ManagerComments {
                         console.log("add comment successfully");
                         return res.status(200).json({
                             success: true, 
-                            message: 'add comment successfully'
+                            message: 'add comment successfully',
+                            comment: newComment
                         })
                     }
                 })
@@ -115,6 +117,12 @@ class ManagerComments {
             return res.status(500).json({ success: false, message: err})
         }
     }
+    getRepComment = async(req, res) => {
+        const commentID = req.params.id;
+        const userID = req.user.user_id;
+        console.log('hello');
+    
+    }
     addRepComment = async(req, res) => {
         const commentID = req.params.id;
         const userID = req.user.user_id;
@@ -131,23 +139,28 @@ class ManagerComments {
             if(!comment)
                 return res.status(300).json({ success: false, message: "This comment could not be found" })
 
-            await Comments.findByIdAndUpdate(commentID, {
-                "$push" : {
-                    "rep_comment": {
-                        "userid" : userID,
-                        "message": message
+            const newRepComment =await RepComments({
+                commentid: commentID,
+                userid: userID,
+                message: message
+            })
+            await newRepComment.save().then((repcomment) => {
+                Comments.findByIdAndUpdate(repcomment.commentid, {
+                    "$push" : {
+                        "rep_comment": newRepComment._id
                     }
-                }
-            }).exec((error, comment) => {
-                if(error) return res.status(300).json({ success: false, message: error })
-                if(comment){
+                }).then((comment) => {
                     return res.status(200).json({
                         success: true, 
                         message: 'Add rep comment successfully',
-                        comment: comment
+                        repcomment: newRepComment
                     })
-                }
-            })
+                }).catch((error) => {
+                    res.status(300).json({success: false, message: error });
+                }) 
+            }).catch((error) => {
+                res.status(300).json({success: false, message: error });
+            });
         } catch (error) {
             return res.status(500).json({ success: false, message: "server error" })
         }
@@ -167,21 +180,25 @@ class ManagerComments {
             if(!comment)
                 return res.status(300).json({ success: false, message: "This comment could not be found" })
 
-            await Comments.findByIdAndUpdate(commentID, {
-                "$pull" : {
-                    "rep_comment": {
-                        "_id" : repCommentID
-                    }
-                }
-            }).exec((error, comment) => {
+            await RepComments.findByIdAndDelete(repCommentID).exec((error, repcomment) => {
                 if(error) return res.status(300).json({ success: false, message: error })
-                if(comment){
-                    return res.status(200).json({
-                        success: true, 
-                        message: 'Delete rep comment successfully'
+                if(repcomment){
+                    Comments.findByIdAndUpdate(commentID, {
+                        "$pull" : {
+                            "rep_comment": repcomment._id
+                        }
+                    }).exec((error, comment) => {
+                        if(error) return res.status(300).json({ success: false, message: error })
+                        if(comment){
+                            return res.status(200).json({
+                                success: true, 
+                                message: 'Delete rep comment successfully'
+                            })
+                        }
                     })
                 }
             })
+            
         } catch (error) {
             return res.status(500).json({ success: false, message: "server error" })
         }

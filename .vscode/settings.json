@@ -12,6 +12,8 @@
         "ownerid",
         "postid",
         "quantily",
+        "repcomment",
+        "repcomments",
         "slidebanner",
         "streamifier",
         "topnav",
