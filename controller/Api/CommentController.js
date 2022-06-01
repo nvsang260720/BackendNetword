@@ -140,7 +140,10 @@ class ManagerComments {
                 }
             })
         } catch (error) {
-            
+            return res.status(500).json({
+                success: true, 
+                message: error,
+            })
         }
     
     }
