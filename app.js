@@ -8,10 +8,13 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override')
 var multer = require('multer');
 var upload = multer();
+var session = require('express-session')
 
 const verifyToken = require('./middleware/auth')
+const checkLogin = require('./middleware/checkLogin')
 
 //router backend
+const authRouter = require('./routes/backend/auth')
 const userRouter = require('./routes/backend/user')
 const adminRouter = require('./routes/backend/admin');
 
@@ -32,6 +35,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('layout', './layouts/layout')
 app.set('view engine', 'ejs');
 
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'session_secret',
+  resave: true,
+  saveUninitialized: false,
+}))
+
 app.use(logger('dev'));
 // for parsing application/json
 app.use(bodyParser.json()); 
@@ -49,7 +59,8 @@ app.use('/vendor', express.static(__dirname + 'public/vendor'));
 app.use('/uploads', express.static( __dirname +'public/uploads'));
 
 app.use('/', homeRouter);
-app.use('/admin', adminRouter);
+app.use('/auth/', authRouter);
+app.use('/admin',checkLogin, adminRouter);
 app.use('/admin/user', userRouter);
 
 //api ApiCategory

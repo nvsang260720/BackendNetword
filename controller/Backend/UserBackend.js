@@ -2,9 +2,11 @@ const User = require('../../models/User')
 const Posts = require('../../models/Posts')
 const cloudinary =require('../../utils/cloudinary')
 
-class updateUser {
+class UserController {
 	getUser = async(req, res) => {
+		const user = req.user.user_id
 		try {
+			console.log(req.session);
 			const user = await User.find()
 			res.render('admin/users/listUser', { title: 'Admin', users: user});
 		} catch (error) {
@@ -12,8 +14,17 @@ class updateUser {
 		}
 
 	}
-	getHome = (req, res) => {
-		res.render('admin/home', { title: 'Admin hello'});
+	getHome = async(req, res) => {
+		const userId = req.user.user_id
+		
+		try {
+			const user = await User.findById(userId)
+			console.log(user);
+			res.render('admin/home', { title: 'Admin hello', user: user});
+		} catch (error) {
+			res.send('user not fund')
+		}
+		
 	}
 	deleteUser = async(req, res) => {
 		const userId = req.params.id 
@@ -128,4 +139,4 @@ class updateUser {
 }
 
 
-module.exports = new updateUser()
+module.exports = new UserController()
