@@ -15,16 +15,7 @@ class UserController {
 
 	}
 	getHome = async(req, res) => {
-		const userId = req.user.user_id
-		
-		try {
-			const user = await User.findById(userId)
-			console.log(user);
-			res.render('admin/home', { title: 'Admin hello', user: user});
-		} catch (error) {
-			res.send('user not fund')
-		}
-		
+		res.render('admin/home', { title: 'Admin hello'});
 	}
 	deleteUser = async(req, res) => {
 		const userId = req.params.id 
