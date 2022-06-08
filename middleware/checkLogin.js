@@ -7,9 +7,7 @@ const checkLogin = async(req, res, next) => {
     const accessToken = localStorage.getItem('accessToken')
     if (accessToken) {
         const user = jwt.verify(accessToken,process.env.ACCESS_TOKEN)
-        const users = await User.findById(user.user_id) 
         req.user = user;
-        localStorage.setItem('url_avatar_user', users.avatar)
         next()
     }else{
         console.log('Is not token');

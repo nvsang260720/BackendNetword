@@ -12,6 +12,7 @@ var session = require('express-session')
 
 const verifyToken = require('./middleware/auth')
 const checkLogin = require('./middleware/checkLogin')
+const checkRouter = require('./middleware/checkRouter')
 
 //router backend
 const authRouter = require('./routes/backend/auth')
@@ -61,7 +62,7 @@ app.use('/uploads', express.static( __dirname +'public/uploads'));
 app.use('/', homeRouter);
 app.use('/auth/', authRouter);
 app.use('/admin',checkLogin, adminRouter);
-app.use('/admin/user', userRouter);
+app.use('/admin/user',checkLogin, userRouter);
 
 //api ApiCategory
 app.use('/api', API);

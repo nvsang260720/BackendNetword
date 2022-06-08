@@ -26,11 +26,17 @@ class AuthController {
 
             const accessToken = jwt.sign({ user_id: user._id }, process.env.ACCESS_TOKEN)
             localStorage.setItem ('accessToken', accessToken);
+            localStorage.setItem('url_avatar_user', user.avatar)
             res.redirect('/admin')
 
         } catch (error) {
             return res.status(500).json({ success: false, message: 'server error' })
         }
+    }
+    logOut = async(req, res) => {
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('url_avatar_user')
+        res.redirect('/auth/login')
     }
 }
 
