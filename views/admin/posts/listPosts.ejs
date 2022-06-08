@@ -10,8 +10,9 @@
                 <thead class="theadTable">
                     <tr>
                         <th style="width: 3%;">STT</th>
-                        <th style="width: 10%;">ID</th>
-                        <th style="width: 10%;">Owner id</th>
+                        <th style="width: 8%;">ID</th>
+                        <th style="width: 8%;">Owner id</th>
+                        <th style="width: 20%;">Image</th>
                         <th style="width: 20%;">Content</th>
                         <th style="width: 10%;">Review</th>
                         <th style="width: 10%;">Delete</th>
@@ -28,6 +29,9 @@
                             </td>
                             <td>
                                 <%= posts[i].ownerid %>
+                            </td>
+                            <td>
+                                <img src="<%= posts[i].images %>" alt="" class="rounded mx-auto d-block img-thumbnail">
                             </td>
                             <td>
                                 <%= posts[i].content %>
