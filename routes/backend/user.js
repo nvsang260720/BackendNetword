@@ -11,7 +11,7 @@ router.get('/view-profile/:id', UserController.getProfile)
 
 router.get('/edit-user/:id', UserController.getUpdateUser)
 
-router.post('/update-user/:id',uploads.single("uploaded_avatar"), UserController.postUpdateUser)
+router.post('/update-user/:id', UserController.postUpdateUser)
 
 router.post('/delete-user/:id',UserController.deleteUser)
 

@@ -111,18 +111,11 @@ class UserController {
 	postUpdateUser = async(req, res) => {
 		const userId = req.params.id
 		const pathAvatar = req.file
-		const {avatar, username, about, address, birthday} = req.body
+		const {username, about, address, birthday} = req.body
 
 		try {
 			
-			const result = await cloudinary.uploader.upload(pathAvatar.path, 
-                {
-                    upload_preset: 'upload_avata',
-                    folder: userId
-                },
-            )
 			User.findByIdAndUpdate(userId, {
-				avatar: result.url, 
 				username: username, 
 				about: about,
 				address: address,
