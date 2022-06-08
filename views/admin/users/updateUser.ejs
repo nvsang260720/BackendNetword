@@ -3,44 +3,48 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-outline card-info">
-                    <form action="/admin/update-user/<%= profile._id %>" method="POST" enctype="multipart/form-data">
+                    <form action="/admin/user/update-user/<%= profile._id %>" method="POST" enctype="multipart/form-data">
                         <div class="card-body">
-                                <input type="file" id="myFile" name="uploaded_avata">
-                                <div class="form-group">
-                                    <div class="inputChoose">
-                                        <label>Full Name</label>
-                                        <input value="<%= profile.username %>" type="text" name="name" class="form-control"
-                                            id="exampleInputPassword1" placeholder="Nguyen van a">
-                                    </div>
+                            <div class="form-group">
+                                <div class="inputChoose">
+                                    <label>Image avatar</label>
+                                    <input type="file" id="myFile" name="uploaded_avatar" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <div class="inputChoose">
-                                        <label>email</label>
-                                        <input disabled value="<%= profile.email %>" type="text" name="email" class="form-control"
-                                            placeholder="05 Nguyen van a">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="inputChoose">
+                                    <label>Full Name</label>
+                                    <input value="<%= profile.username %>" type="text" name="username" class="form-control"
+                                        id="exampleInputPassword1" placeholder="Nguyen van a">
                                 </div>
-                                <div class="form-group">
-                                    <div class="inputChoose">
-                                        <label>address</label>
-                                        <input  value="<%= profile.address %>" type="text" name="address" class="form-control"
-                                            placeholder="05 Nguyen van a">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="inputChoose">
+                                    <label>Email</label>
+                                    <input disabled value="<%= profile.email %>" type="text" name="email" class="form-control"
+                                        placeholder="05 Nguyen van a">
                                 </div>
-                                <div class="form-group">
-                                    <div class="inputChoose">
-                                        <label>Date of birth</label>
-                                        <input  value="<%= profile.address %>" type="text" name="birthday" class="form-control"
-                                            placeholder="05 Nguyen van a">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="inputChoose">
+                                    <label>Address</label>
+                                    <input  value="<%= profile.address %>" type="text" name="address" class="form-control"
+                                        placeholder="05 Nguyen van a">
                                 </div>
-                                <div class="form-group">
-                                    <label>About</label>
-                                    <textarea name="about" class="form-control" rows="5" placeholder="My Bio"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="inputChoose">
+                                    <label>Date of birth</label>
+                                    <input  value="<%= profile.birthday %>" type="text" name="birthday" class="form-control"
+                                        placeholder="26/07/2000">
                                 </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btSave">Update</button>
-                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>About</label>
+                                <textarea name="about" class="form-control" rows="5" placeholder="My Bio"><%= profile.about %> </textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update</button>
+
                         </div>
                     </form>
                 </div>

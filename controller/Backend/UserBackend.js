@@ -1,5 +1,6 @@
 const User = require('../../models/User')
 const Posts = require('../../models/Posts')
+const Comments = require('../../models/Comments')
 const cloudinary =require('../../utils/cloudinary')
 
 class UserController {
@@ -36,23 +37,24 @@ class UserController {
 	}
 	getProfile = async(req, res) => {
 		const userId = req.params.id
+
 		try {
 			var listUrl = [];
 			var checkCloud =0;
-			await cloudinary.search.expression(
-					userId
-				).sort_by('public_id','desc')
-				.max_results(30)
-				.execute()
-				.then((result) => {
-					for (let res of result.resources) {
-						listUrl.push(res.url)
-					}
-				}).catch(err =>{
-					checkCloud++
-					
-				})
+			await cloudinary.search.expression(userId)
+			.sort_by('public_id','desc')
+			.max_results(30)
+			.execute()
+			.then((result) => {
+				for (let res of result.resources) {
+					listUrl.push(res.url)
+				}
+			}).catch(err =>{
+				checkCloud++
+				
+			})
 			console.log(checkCloud);
+			const comment = await Comments.find({userid: userId})
 			await User.findById(userId).exec( (error, user) => {
                 if(error) return res.redirect('/admin')
                 if(user){
@@ -73,7 +75,8 @@ class UserController {
 								posts: post, 
 								following: countFollowing,
 								followers: countFollowers,
-								urls: '0' 
+								urls: '0' ,
+								comments: comment
 							});	
 						}if(post && checkCloud ===0 ){
 							res.render('admin/users/reviewUser', { 
@@ -82,7 +85,8 @@ class UserController {
 								posts: post, 
 								following: countFollowing,
 								followers: countFollowers,
-								urls: listUrl 
+								urls: listUrl,
+								comments: comment 
 							});	
 						}
 					}) 
@@ -106,11 +110,19 @@ class UserController {
 	}
 	postUpdateUser = async(req, res) => {
 		const userId = req.params.id
-		console.log(req.files)
+		const pathAvatar = req.file
+		const {avatar, username, about, address, birthday} = req.body
+
 		try {
-			const {avatar, username, about, address, birthday} = req.body
+			
+			const result = await cloudinary.uploader.upload(pathAvatar.path, 
+                {
+                    upload_preset: 'upload_avata',
+                    folder: userId
+                },
+            )
 			User.findByIdAndUpdate(userId, {
-				avatar: avatar, 
+				avatar: result.url, 
 				username: username, 
 				about: about,
 				address: address,
@@ -119,6 +131,7 @@ class UserController {
 			.exec((error, user) => {
 				if(error) return res.json({ success: false, message: 'query cart to data fail' })
 				if(user){
+					console.log(user);
 					res.redirect('/admin/user')
 				}
 			})
