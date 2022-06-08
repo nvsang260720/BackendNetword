@@ -116,13 +116,16 @@
                                     <th style="width: 3%;">STT</th>
                                     <th style="width: 15%;">ID</th>
                                     <th style="width: 5%;">Type</th>
+                                    <th style="width: 5%;">Like</th>
                                     <th style="width: 20%;">Image</th>
                                     <th style="width: 10%;">Content</th>
                                     <th style="width: 10%;">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% for( var i=0; i < posts.length; i++){ %>
+                                <%
+                                    var countLike = 0;
+                                    for( var i=0; i < posts.length; i++){ %>
                                     <tr>
                                         <td class="centerTD">
                                             <%= i+1 %>
@@ -132,6 +135,16 @@
                                         </td>
                                         <td>
                                             <%= posts[i].type %>
+                                        </td>
+                                        <td>
+                                            <% 
+                                                posts[i].like.forEach(async(item) => {   
+                                                    if(item.liked == 1){
+                                                        countLike++
+                                                    }
+                                                });
+                                            %>
+                                            <p><%= countLike %></p>
                                         </td>
                                         <td>
                                             <img src="<%= posts[i].images %>" alt="" class="rounded mx-auto d-block img-thumbnail">

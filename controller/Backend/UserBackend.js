@@ -68,17 +68,8 @@ class UserController {
 					});
 					Posts.find({_id: {$in : user.posts}}).exec((error, post) => {
 						if(error) return res.redirect('/admin')
-						if(post && checkCloud ===1 ){
-							res.render('admin/users/reviewUser', { 
-								title: 'Admin', 
-								profile: user, 
-								posts: post, 
-								following: countFollowing,
-								followers: countFollowers,
-								urls: '0' ,
-								comments: comment
-							});	
-						}if(post && checkCloud ===0 ){
+						if(post){
+							console.log('like count:', post);
 							res.render('admin/users/reviewUser', { 
 								title: 'Admin', 
 								profile: user, 
