@@ -12,7 +12,6 @@ var session = require('express-session')
 
 const verifyToken = require('./middleware/auth')
 const checkLogin = require('./middleware/checkLogin')
-const checkRouter = require('./middleware/checkRouter')
 
 //router backend
 const authRouter = require('./routes/backend/auth')
